@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.7/jquery.min.js"></script>
+
+		<style>
+			#timeline {
+				position: relative;
+				width: 800px;
+				min-height: 200px;
+				margin: 100px auto;
+				padding: 5px;
+				border: 1px #000 solid;
+				background: #f0f0f0;
+			}
+
+			#time_index {
+				position: absolute;
+				top: 5px;
+				left: 400px;
+				width: 10px;
+				min-height: 200px;
+				border: 1px #000 solid;
+			}
+
+			#timeline ul {
+				margin: 0;
+				padding: 0;
+			}
+
+			#timeline ul li {
+				width: 300px;
+				border: 1px red solid;
+				list-style-type: none;
+				margin: 0 0 5px;
+			}
+
+			#timeline ul li.left {
+				float: left;
+			}
+
+			#timeline ul li.left {
+				float: right;
+			}
+
+
+
+		</style>
+	</head>
+
+	<body>
+		<script type="text/javascript">
+		var timeline = {
+			left_height: 0,
+			right_height: 0,
+
+			data: [
+				{
+					time: 1329327677,
+					ac_id: 6,
+					ac_icon: "http://www.google.com",
+					ac_name: "Level 10"
+				},
+				{
+					time: 1329327677,
+					ac_id: 7,
+					ac_icon: "http://www.google.com",
+					ac_name: "Level 20"
+				}
+			],
+
+			plot: function(index) {
+				var side = (this.left_height <= this.right_height) ? 'left' : 'right';
+			},
+
+			init: function() {
+
+			}
+
+		};
+
+		$(document).ready(function() {
+			timeline.init();
+		});
+		</script>
+
+		<div id="timeline">
+			<div id="time_index"></div>
+			<ul>
+				<li class="left">Foo<br />Mc Goo</li>
+				<li class="right">Bar</li>
+				<li class="right">Bar</li>
+				<li class="left">OMG<br />soooo<br />cool</li>
+			</ul>
+		</div>
+		<?php echo $this->layout()->content; ?>
+
+	</body>
+</html>
