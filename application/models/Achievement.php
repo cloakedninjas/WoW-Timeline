@@ -3,13 +3,40 @@ class Model_Achievement extends Model_Base {
 
 	protected $_dbTableName = 'achievements';
 
-	public static function loadCrossReference() {
-		//$db = Zend_Registry::get('db');
-		//$db->query("SELECT")
-		$achievement = new Model_Achievement();
-		$foo = $achievement->fetchAll('in_use = 1');
+	public function loadCrossReference(Model_Character $char) {
+		$db = Zend_Registry::get("db");
 
-		return $foo;
+    	$query = "SELECT * FROM achievements WHERE id IN (";
+
+    	$i = 0;
+
+    	foreach ($char->achievements_by_day as $day=>$achvs) {
+			$achvs = explode(',', $achvs);
+
+			foreach ($achvs as $a) {
+    			$query .= $a . ', ';
+    			$i++;
+
+
+			}
+
+			// allow more than load_count to complete day's achievments
+			if ($i >= $char->load_count) {
+				break;
+			}
+    	}
+
+    	$query = substr($query, 0, -2);
+    	$query .= ')';
+
+		$rows = $db->fetchAll($query);
+
+		$entries = array();
+		foreach ($rows as $row) {
+			$entries[$row->id] = $row;
+		}
+
+		return $entries;
 	}
 
 	public function insert($object, $parent_category) {

@@ -50,51 +50,6 @@
 	</head>
 
 	<body>
-		<script type="text/javascript">
-		var timeline = {
-			left_height: 0,
-			right_height: 0,
-
-			data: [
-				{
-					time: 1329327677,
-					ac_id: 6,
-					ac_icon: "http://www.google.com",
-					ac_name: "Level 10"
-				},
-				{
-					time: 1329327677,
-					ac_id: 7,
-					ac_icon: "http://www.google.com",
-					ac_name: "Level 20"
-				}
-			],
-
-			plot: function(index) {
-				var side = (this.left_height <= this.right_height) ? 'left' : 'right';
-			},
-
-			init: function() {
-
-			}
-
-		};
-
-		$(document).ready(function() {
-			timeline.init();
-		});
-		</script>
-
-		<div id="timeline">
-			<div id="time_index"></div>
-			<ul>
-				<li class="left">Foo<br />Mc Goo</li>
-				<li class="right">Bar</li>
-				<li class="right">Bar</li>
-				<li class="left">OMG<br />soooo<br />cool</li>
-			</ul>
-		</div>
 		<?php echo $this->layout()->content; ?>
-
 	</body>
 </html>

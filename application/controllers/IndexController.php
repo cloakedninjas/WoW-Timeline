@@ -7,42 +7,18 @@ class IndexController extends Zend_Controller_Action {
     }
 
     public function indexAction() {
-
-    	//echo "<pre>";
-
     	// get Halbu achieves
     	$char = new Model_Character();
     	$char->load(array(
     			'region' => 'eu',
     			'realm' => 'Lightbringer',
     			'name' => 'Halbu'
-    			));
+    			), 30);
 
-    	//var_dump($char);
+    	// load achievement info for cross reference
+    	$achievement = new Model_Achievement();
 
-    	$achvs = new Model_Achievement();
-    	$all_achievements = $achvs->fetchAll();
-
-    	foreach ($char->achievements_by_day as $day=>$achvs) {
-    		$achvs = explode(',', $achvs);
-
-    		echo "<h1>" . date("M d Y", $day) . "</h1>";
-
-    		foreach ($achvs as $a) {
-    			echo "<p>" . $all_achievements[$a]->name . "</p>";
-    		}
-
-    		echo "<hr />";
-    		//exit;
-    	}
-
-
-
-    	exit;
-
+    	$this->view->achievement_ref = $achievement->loadCrossReference($char);
+    	$this->view->char = $char;
 	}
-
-
-
-
 }

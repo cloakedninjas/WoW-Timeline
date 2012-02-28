@@ -7,8 +7,9 @@ class Model_Character {// extends Model_Base {
 	public $url;
 	public $achievements = array();
 	public $achievements_by_day = array();
+	public $load_count;
 
-	public function load(array $params) {
+	public function load(array $params, $load_count) {
 		if (!isset($params['region'])) {
 			throw new BadMethodCallException('Missing param: region');
 		}
@@ -30,6 +31,7 @@ class Model_Character {// extends Model_Base {
 
 		$this->firstAchievementDate = time();
 		$this->lastAchievementDate = 0;
+		$this->load_count = $load_count;
 
 		foreach ($this->json->achievements->achievementsCompleted as $index=>$achv_id) {
 
@@ -58,6 +60,8 @@ class Model_Character {// extends Model_Base {
 		// sort them by date order
 		ksort($this->achievements_by_day);
 
+		// reverse it
+		$this->achievements_by_day = array_reverse($this->achievements_by_day, true);
 	}
 
 	public function getAchievementsForDate($date) {

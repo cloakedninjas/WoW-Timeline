@@ -1,1 +1,76 @@
-Hello
+<?php
+
+$data = array();
+$i = 0;
+
+foreach ($this->char->achievements_by_day as $day=>$achvs) {
+	$achvs = explode(',', $achvs);
+
+	//echo "<h1>" . date("M d Y", $day) . "</h1>";
+	$obj = new stdClass();
+	$obj->day = date("M d Y", $day);
+	$obj->a = array();
+
+	foreach ($achvs as $a) {
+		$i++;
+		$obj->a[] = $this->achievement_ref[$a]->name;
+	}
+
+	$data[] = $obj;
+
+	if ($i >= $this->char->load_count) {
+		break;
+	}
+}
+
+?>
+
+<script type="text/javascript">
+var timeline = {
+	left_height: 0,
+	right_height: 0,
+
+	data: <?php echo json_encode($data); ?>,
+
+	plot: function() {
+		var side = (this.left_height < this.right_height) ? 'left' : 'right';
+
+		for(var i = 0; i < this.data.length; i++) {
+			var html = "<li>" + this.data[i].day + "<br />";
+			for (var j = 0; j < this.data[i].a.length; j++) {
+				html += this.data[i].a[j] + "<br />";
+			}
+			html += "</li>";
+			side = (this.left_height < this.right_height) ? 'left' : 'right';
+
+			$("#timeline ul").append(html);
+
+			var elem = $("#timeline ul li:last");
+			elem.addClass(side);
+
+			if (side == "left") {
+				this.left_height += elem.height();
+			}
+			else {
+				this.right_height += elem.height();
+			}
+
+			//console.log();
+		}
+	},
+
+	init: function() {
+		this.plot();
+	}
+
+};
+
+$(document).ready(function() {
+	timeline.init();
+});
+</script>
+
+<div id="timeline">
+	<div id="time_index"></div>
+	<ul></ul>
+</div>
