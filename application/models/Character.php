@@ -1,5 +1,7 @@
 <?php
 class Model_Character {// extends Model_Base {
+	
+	//http:// <region> + .battle.net/static-render/ + <region> + / + <the string you got from API as thumbnail>
 
 	protected $_dbTableName = 'chars';
 	protected $_armory;

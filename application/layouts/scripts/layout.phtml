@@ -3,53 +3,16 @@
 
 	<head>
 		<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.7/jquery.min.js"></script>
-
-		<style>
-			#timeline {
-				position: relative;
-				width: 800px;
-				min-height: 200px;
-				margin: 100px auto;
-				padding: 5px;
-				border: 1px #000 solid;
-				background: #f0f0f0;
-			}
-
-			#time_index {
-				position: absolute;
-				top: 5px;
-				left: 400px;
-				width: 10px;
-				min-height: 200px;
-				border: 1px #000 solid;
-			}
-
-			#timeline ul {
-				margin: 0;
-				padding: 0;
-			}
-
-			#timeline ul li {
-				width: 300px;
-				border: 1px red solid;
-				list-style-type: none;
-				margin: 0 0 5px;
-			}
-
-			#timeline ul li.left {
-				float: left;
-			}
-
-			#timeline ul li.left {
-				float: right;
-			}
-
-
-
-		</style>
+		<script type="text/javascript" src="/js/app.js"></script>
+		<link href="/favicon.ico" rel="shortcut icon" type="image/x-icon" />
+		
+		<link href='http://fonts.googleapis.com/css?family=Gudea:400,700&subset=latin,latin-ext' rel='stylesheet' type='text/css'>
+		<link type="text/css" rel="stylesheet" href="/css/screen.css" />
 	</head>
 
 	<body>
-		<?php echo $this->layout()->content; ?>
+		<div id="frame">
+			<?php echo $this->layout()->content; ?>
+		</div>
 	</body>
 </html>
