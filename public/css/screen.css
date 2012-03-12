@@ -82,11 +82,17 @@ body {
 #time_index {
 	position: absolute;
 	top: 5px;
-	left: 495px;
-	width: 10px;
+	left: 473px;
+	width: 50px;
 	min-height: 500px;
 	border: 1px #000 solid;
-	background: #040404;
+}
+
+#time_index p {
+	position: absolute;
+	width: 50px;
+	text-align: center;
+	font-weight: bold;
 }
 
 #entry_template {
@@ -100,10 +106,13 @@ body {
 	padding: 5px;
 	border: 1px #000 solid;
 	border-radius: 5px;
-	background: #040404;
-	color: #fff;
 	list-style-type: none;
-	
+	background: #333;
+	color: #fff;	
+}
+
+#timeline .entry.hover {
+	z-index: 1000;
 }
 
 #timeline .entry.left {
@@ -116,19 +125,43 @@ body {
 
 #timeline .entry .date {
 	display: block;
+	margin: 0 0 5px;
 	color: grey;
+}
+
+#timeline .entry.left .date {
+	text-align: right;
 }
 
 #timeline .entry .l {
 	position: absolute;
-	right: -79px;
-	width: 78px;
+	right: -57px;
+	width: 56px;
 	height: 1px;
 	background: #000;
 }
 
 #timeline .entry.right .l {
-	left: -79px;
+	left: -57px;
+}
+
+#timeline .entry p.hidden {
+	display: none;
+}
+
+
+#timeline .entry .exp {
+	position: absolute;
+	bottom: 1px;
+	right: 1px;
+	height: 16px;
+	padding: 0 20px 0 0;
+	background: url(/images/arrow-315.png) bottom right no-repeat;
+	cursor: pointer;
+}
+
+#timeline .entry.hover .exp {
+	display: none;
 }
 
 .c1,.c1 a{color:#C69B6D!important;}.c2,.c2 a{color:#F48CBA!important;}.c3,.c3 a{color:#AAD372!important;}.c4,.c4 a{color:#FFF468!important;}.c5,.c5 a{color:#FFF!important;}.c6,.c6 a{color:#C41E3B!important;}.c7,.c7 a{color:#2359FF!important;}.c8,.c8 a{color:#68CCEF!important;}.c9,.c9 a{color:#9382C9!important;}.c11,.c11 a{color:#FF7C0A!important;}.c12,.c12 a{color:#008467!important;}

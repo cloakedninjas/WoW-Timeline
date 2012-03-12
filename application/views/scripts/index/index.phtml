@@ -7,7 +7,11 @@ foreach ($this->char->achievements_by_day as $day=>$achvs) {
 	$achvs = explode(',', $achvs);
 
 	$obj = new stdClass();
-	$obj->day = date("M d Y", $day);
+	$obj->y = date("Y", $day);
+	$obj->m = date("M", $day);
+	$obj->mm = date("m", $day);
+	$obj->da = date("j", $day);
+	
 	$obj->a = array();
 	$obj->d = array();
 
