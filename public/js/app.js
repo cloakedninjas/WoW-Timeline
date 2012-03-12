@@ -37,7 +37,7 @@ var Timeline = {
 
 				entry = "<p title=\"" + this.data[day_idx].a[ach_idx].d + "\"";
 				if (ach_idx >= 2) {
-					entry += " class=\"hidden\"";
+					//entry += " class=\"hidden\"";
 				}
 				entry += ">" + this.data[day_idx].a[ach_idx].n + "</p>";
 
@@ -45,8 +45,8 @@ var Timeline = {
 			}
 
 			if (expand) {
-				html.append("<a class=\"exp\" onmouseenter=\"Timeline.expandDay(" + day_idx + ")\">+" + (this.data[day_idx].a.length - 2) + "</a>");
-				html.attr("onmouseleave", "Timeline.collapseDay(" + day_idx + ")");
+				//html.append("<a class=\"exp\" onmouseenter=\"Timeline.expandDay(" + day_idx + ")\">+" + (this.data[day_idx].a.length - 2) + "</a>");
+				//html.attr("onmouseleave", "Timeline.collapseDay(" + day_idx + ")");
 			}
 
 			var side = (this.left_height > this.right_height) ? 'right' : 'left';

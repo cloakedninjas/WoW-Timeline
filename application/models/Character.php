@@ -1,6 +1,6 @@
 <?php
 class Model_Character {// extends Model_Base {
-	
+
 	//http:// <region> + .battle.net/static-render/ + <region> + / + <the string you got from API as thumbnail>
 
 	protected $_dbTableName = 'chars';
@@ -63,7 +63,7 @@ class Model_Character {// extends Model_Base {
 		ksort($this->achievements_by_day);
 
 		// reverse it
-		$this->achievements_by_day = array_reverse($this->achievements_by_day, true);
+		//$this->achievements_by_day = array_reverse($this->achievements_by_day, true);
 	}
 
 	public function getAchievementsForDate($date) {
