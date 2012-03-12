@@ -11,14 +11,27 @@ foreach ($this->char->achievements_by_day as $day=>$achvs) {
 	$obj->m = date("M", $day);
 	$obj->mm = date("m", $day);
 	$obj->da = date("j", $day);
-	
+
 	$obj->a = array();
-	$obj->d = array();
+	//$obj->d = array();
 
 	foreach ($achvs as $a) {
 		$i++;
-		$obj->a[] = $this->achievement_ref[$a]->name;
-		$obj->d[] = $this->achievement_ref[$a]->description;
+		$obj2 = new stdClass();
+		$obj2->n = $this->achievements->cross_ref[$a]->name;
+		$obj2->d = $this->achievements->cross_ref[$a]->description;
+
+		if ($this->achievements->cross_ref[$a]->noteable) {
+			$obj2->no = true;
+		}
+
+		$obj->a[] = $obj2;
+
+		//$obj->a[] = $this->achievements->cross_ref[$a]->name;
+		//$obj->d[] = $this->achievements->cross_ref[$a]->description;
+
+
+		//if ($this->achievement_ref->achievementIsNotable($this->achievement_ref[$a]-)
 	}
 
 	$data[] = $obj;
@@ -51,12 +64,23 @@ $(document).ready(function() {
 </div>
 
 <div id="timeline">
-	<div id="time_index"></div>
+	<div id="time_index">
+		<div class="cata"></div>
+		<div class="wotlk"></div>
+		<div class="tbc"></div>
+		<!--
+		Achvs intro : October 14, 2008
+		Wotlk release: November 13, 2008
+		 -->
+	</div>
 	<div class="entries"></div>
-	<div class="clear"></div>
 </div>
 
 <div id="entry_template" class="entry">
 	<span class="date"></span>
 	<span class="l"></span>
+</div>
+
+<div id="notable_template" class="entry notable">
+	<span class="date"></span>
 </div>

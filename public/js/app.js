@@ -1,80 +1,107 @@
 var Timeline = {
 	left_height: 5,
 	right_height: 20,
-	total_height: 5,
-	pad: 17,
-	margin: 15,
+	max_height: 20,
 
 	plot: function() {
 		var prev_mon = null;
-		
-		for (var i = 0; i < this.data.length; i++) {
-			
-			if (prev_mon != this.data[i].mm) {
+
+		for (var day_idx = 0; day_idx < this.data.length; day_idx++) {
+
+			// time indexes
+			if (prev_mon != this.data[day_idx].mm) {
 				var h = (this.left_height < this.right_height) ? this.left_height : this.right_height;
-				//h -= 10;
-				$("#time_index").append("<p style=\"top: " + h + "px;\">" + this.data[i].m + "</p>");
+				var h = this.max_height;
+				$("#time_index").append("<p style=\"top: " + h + "px;\">" + this.data[day_idx].m + "</p>");
 			}
-			prev_mon = this.data[i].mm;
-			
+			prev_mon = this.data[day_idx].mm;
+
+			// entries
 			var html = $("#entry_template").clone();
-			
+
 			html.removeAttr("id");
-			
-			html.find(".date").text(this.data[i].da + " " + this.data[i].m);
-			html.attr("data-day", i);
-			
+
+			html.find(".date").text(this.data[day_idx].da + " " + this.data[day_idx].m);
+			html.attr("data-day", day_idx);
+
 			var entry = '';
-			var expand = this.data[i].a.length > 2; 
-			
-			for (var j = 0; j < this.data[i].a.length; j++) {
-				
-				entry = "<p title=\"" + this.data[i].d[j] + "\"";
-				if (j >= 2) {
+			var expand = this.data[day_idx].a.length > 2;
+
+			for (var ach_idx = 0; ach_idx < this.data[day_idx].a.length; ach_idx++) {
+
+				if (this.data[day_idx].a[ach_idx].no) {
+					// notable achievements done elsewhere
+					this.plotNotable(this.data[day_idx].a[ach_idx]);
+					continue;
+				}
+
+				entry = "<p title=\"" + this.data[day_idx].a[ach_idx].d + "\"";
+				if (ach_idx >= 2) {
 					entry += " class=\"hidden\"";
 				}
-				entry += ">" + this.data[i].a[j] + "</p>";
-				
+				entry += ">" + this.data[day_idx].a[ach_idx].n + "</p>";
 
 				html.append(entry);
 			}
-			
+
 			if (expand) {
-				html.append("<a class=\"exp\" onmouseenter=\"Timeline.expandDay(" + i + ")\">+" + (this.data[i].a.length - 2) + "</a>");
-				html.attr("onmouseleave", "Timeline.collapseDay(" + i + ")");
+				html.append("<a class=\"exp\" onmouseenter=\"Timeline.expandDay(" + day_idx + ")\">+" + (this.data[day_idx].a.length - 2) + "</a>");
+				html.attr("onmouseleave", "Timeline.collapseDay(" + day_idx + ")");
 			}
-			
+
 			var side = (this.left_height > this.right_height) ? 'right' : 'left';
-			
 			html.addClass(side);
-			
-			$("#timeline .entries").append(html);
-			
-			var new_height = this.margin + html.height() + this.pad;
 
-			if (side == "left") {
-				html.css("top", this.left_height);
-				this.left_height += new_height;
-				this.total_height = this.left_height; 
-				
-			}
-			else {
-				html.css("top", this.right_height);
-				this.right_height += new_height;
-				this.total_height = this.right_height;
-			}
-			
-			$("#timeline").css("height", this.total_height);
-			$("#time_index").css("height", this.total_height);
-
+			this.addToTimeline(html);
 		}
 	},
-	
+
+	plotNotable: function(data) {
+		var html = $("#notable_template").clone();
+		html.removeAttr("id");
+		html.append("<h4>" + data.n + "</h4><p>" + data.d + "</p>");
+
+		this.addToTimeline(html);
+	},
+
+	addToTimeline: function(html) {
+
+		if (html.hasClass("notable")) {
+			html.css("top", this.max_height);
+		}
+		else if (html.hasClass("left")) {
+			html.css("top", this.left_height);
+		}
+		else {
+			html.css("top", this.right_height);
+		}
+
+		$("#timeline .entries").append(html);
+
+		var new_height = html.outerHeight(true);
+
+		if (html.hasClass("notable")) {
+
+			this.max_height = this.right_height =  this.left_height = this.max_height + new_height;
+		}
+		else if (html.hasClass("left")) {
+			this.left_height += new_height;
+			this.max_height = this.left_height;
+		}
+		else {
+			this.right_height += new_height;
+			this.max_height = this.right_height;
+		}
+
+		$("#timeline").css("height", this.max_height);
+		$("#time_index").css("height", this.max_height);
+	},
+
 	expandDay: function(day) {
 		$("#timeline .entry[data-day='" + day + "']").addClass("hover");
 		$("#timeline .entry[data-day='" + day + "'] .hidden").show(200);
 	},
-	
+
 	collapseDay: function(day) {
 		$("#timeline .entry[data-day='" + day + "']").removeClass("hover");
 		$("#timeline .entry[data-day='" + day + "'] .hidden").hide(200);

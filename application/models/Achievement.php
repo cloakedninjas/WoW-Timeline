@@ -3,40 +3,41 @@ class Model_Achievement extends Model_Base {
 
 	protected $_dbTableName = 'achievements';
 
+	public $cross_ref = array();
+
 	public function loadCrossReference(Model_Character $char) {
 		$db = Zend_Registry::get("db");
 
-    	$query = "SELECT * FROM achievements WHERE id IN (";
+		if (count($char->achievements_by_day) > 0) {
+	    	$query = "SELECT * FROM achievements WHERE id IN (";
 
-    	$i = 0;
+	    	$i = 0;
 
-    	foreach ($char->achievements_by_day as $day=>$achvs) {
-			$achvs = explode(',', $achvs);
+	    	foreach ($char->achievements_by_day as $day=>$achvs) {
+				$achvs = explode(',', $achvs);
 
-			foreach ($achvs as $a) {
-    			$query .= $a . ', ';
-    			$i++;
+				foreach ($achvs as $a) {
+	    			$query .= $a . ', ';
+	    			$i++;
+				}
 
+				// allow more than load_count to complete day's achievements
+				if ($i >= $char->load_count) {
+					break;
+				}
+	    	}
 
+	    	$query = substr($query, 0, -2);
+	    	$query .= ')';
+
+			$rows = $db->fetchAll($query);
+
+			foreach ($rows as $row) {
+				$this->cross_ref[$row->id] = $row;
 			}
-
-			// allow more than load_count to complete day's achievments
-			if ($i >= $char->load_count) {
-				break;
-			}
-    	}
-
-    	$query = substr($query, 0, -2);
-    	$query .= ')';
-
-		$rows = $db->fetchAll($query);
-
-		$entries = array();
-		foreach ($rows as $row) {
-			$entries[$row->id] = $row;
 		}
 
-		return $entries;
+		return $this;
 	}
 
 	public function insert($object, $parent_category) {
@@ -53,7 +54,6 @@ class Model_Achievement extends Model_Base {
 		$json = json_decode(file_get_contents($url));
 
 
-
 		foreach ($json->achievements as $a) {
 			foreach ($a->achievements as $a) {
 				var_dump($a);
@@ -63,8 +63,6 @@ class Model_Achievement extends Model_Base {
 	}
 
 	public function fetchAll($where = null) {
-		//return $this->getDbTable()->fetchAll($where);
-
 		$class = get_class($this);
 
 		$resultSet = $this->getDbTable()->fetchAll($where);
@@ -82,5 +80,4 @@ class Model_Achievement extends Model_Base {
 
 		return $entries;
 	}
-
 }

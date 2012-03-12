@@ -6,7 +6,7 @@ class Model_Armory {
 	}
 
 	public function loadJson($url) {
-		return json_decode(file_get_contents("D:/www/WoW Timeline/public/js/halbu.js"));
+		return json_decode(file_get_contents(APPLICATION_PATH . '/../cache/halbu.js'));
 		return json_decode(file_get_contents($url));
 	}
 
