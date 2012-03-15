@@ -88,22 +88,21 @@ body {
 	border: 1px #000 solid;
 }
 
-#time_index .cata {
+#time_index .exp {
 	position: absolute;
 	left: 0;
 	right: 0;
+	opacity: 0.8;
+	display: none;
+}
+#time_index .cata {
 	top: 0;
 	height: 200px;
 	background: #CA3B16;
-	opacity: 0.8;
 }
 
 #time_index .wotlk {
-	position: absolute;
-	left: 0;
-	right: 0;
 	top: 200px;
-	bottom: 0;
 	background: #263669;
 	opacity: 0.8;
 }
@@ -127,7 +126,8 @@ body {
 	border: 1px #000 solid;
 	border-radius: 5px;
 	background: #333;
-	color: #fff;	
+	color: #fff;
+	visibility: hidden;
 }
 
 #timeline .entry.hover {

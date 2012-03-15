@@ -5,6 +5,7 @@ class Model_Character {// extends Model_Base {
 
 	protected $_dbTableName = 'chars';
 	protected $_armory;
+	protected $json;
 
 	public $url;
 	public $achievements = array();
@@ -34,6 +35,7 @@ class Model_Character {// extends Model_Base {
 		$this->firstAchievementDate = time();
 		$this->lastAchievementDate = 0;
 		$this->load_count = $load_count;
+		$this->achievement_points = $this->json->achievementPoints;
 
 		foreach ($this->json->achievements->achievementsCompleted as $index=>$achv_id) {
 
@@ -63,12 +65,9 @@ class Model_Character {// extends Model_Base {
 		ksort($this->achievements_by_day);
 
 		// reverse it
-		//$this->achievements_by_day = array_reverse($this->achievements_by_day, true);
+		$this->achievements_by_day = array_reverse($this->achievements_by_day, true);
 	}
 
-	public function getAchievementsForDate($date) {
-		//$day_begins =
-	}
 
 
 }

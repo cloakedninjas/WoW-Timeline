@@ -45,6 +45,9 @@ foreach ($this->char->achievements_by_day as $day=>$achvs) {
 
 <script type="text/javascript">
 Timeline.data = <?php echo json_encode($data); ?>;
+Timeline.total_entries = <?php echo count($this->char->achievements_by_day); ?>;
+Timeline.total_achvs = <?php echo count($this->char->achievements); ?>;
+Timeline.total_points = <?php echo $this->char->achievement_points; ?>;
 
 $(document).ready(function() {
 	Timeline.init();
@@ -65,9 +68,9 @@ $(document).ready(function() {
 
 <div id="timeline">
 	<div id="time_index">
-		<div class="cata"></div>
-		<div class="wotlk"></div>
-		<div class="tbc"></div>
+		<div class="exp cata"></div>
+		<div class="exp wotlk"></div>
+		<div class="exp tbc"></div>
 		<!--
 		Achvs intro : October 14, 2008
 		Wotlk release: November 13, 2008

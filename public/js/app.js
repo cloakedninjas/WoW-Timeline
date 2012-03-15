@@ -2,6 +2,10 @@ var Timeline = {
 	left_height: 5,
 	right_height: 20,
 	max_height: 20,
+	shift_pad: 5,
+	scroll_percent: 0,
+	scroll_trigger: 75,
+	has_more_achvs: true,
 
 	plot: function() {
 		var prev_mon = null;
@@ -81,17 +85,19 @@ var Timeline = {
 		var new_height = html.outerHeight(true);
 
 		if (html.hasClass("notable")) {
-
-			this.max_height = this.right_height =  this.left_height = this.max_height + new_height;
+			this.right_height =  this.left_height = this.max_height + new_height;
+			this.right_height += this.shift_pad;
 		}
 		else if (html.hasClass("left")) {
 			this.left_height += new_height;
-			this.max_height = this.left_height;
+			this.right_height += this.shift_pad;
 		}
 		else {
 			this.right_height += new_height;
-			this.max_height = this.right_height;
+			this.left_height += this.shift_pad;
 		}
+
+		this.max_height = Math.max(this.left_height, this.right_height);
 
 		$("#timeline").css("height", this.max_height);
 		$("#time_index").css("height", this.max_height);
@@ -107,8 +113,30 @@ var Timeline = {
 		$("#timeline .entry[data-day='" + day + "'] .hidden").hide(200);
 	},
 
+	scrollHandler: function(e) {
+		if (this.scroll_trigger == false) {
+			$(window).unbind('scroll', this.scrollHandler);
+			return;
+		}
+
+        this.scroll_percent = ($(window).scrollTop() / ($(document).height() - $(window).height())) * 100;
+
+        if (this.scroll_percent >= this.scroll_trigger) {
+        	if (this.has_more_achvs) {
+        		$("body").append("<p>foo</p><p>foo</p><p>foo</p><p>foo</p><p>foo</p><p>foo</p><p>foo</p><p>foo</p><p>foo</p><p>foo</p>");
+        	}
+        	else {
+        		this.scroll_trigger = false;
+        	}
+
+        }
+	},
+
 	init: function() {
 		this.plot();
+		$(window).scroll(function (e) {
+			Timeline.scrollHandler(e);
+		});
 	}
 
 };
