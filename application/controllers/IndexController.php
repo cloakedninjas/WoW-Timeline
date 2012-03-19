@@ -13,12 +13,15 @@ class IndexController extends Zend_Controller_Action {
     			'region' => 'eu',
     			'realm' => 'Lightbringer',
     			'name' => 'Halbu'
-    			), 100);
+    	));
+
+    	$char->loadJson(0, 100);
 
     	// load achievement info for cross reference
     	$achievement = new Model_Achievement();
 
     	$this->view->achievements = $achievement->loadCrossReference($char);
     	$this->view->char = $char;
+    	$this->view->json_data = $char->getJsonData();
 	}
 }

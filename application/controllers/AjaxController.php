@@ -8,16 +8,19 @@ class AjaxController extends Zend_Controller_Action {
     }
 
     public function loadEntriesAction() {
-    	// get Halbu achieves
     	$char = new Model_Character();
     	$char->load(array(
-    			'region' => $this->_getParam('region'),
-    			'realm' => $this->_getParam('realm'),
-    			'name' => $this->_getParam('name')
-    			), 100);
+    			'region' => 'eu',
+    			'realm' => 'Lightbringer',
+    			'name' => 'Halbu'
+    	));
 
+    	$char->loadJson($this->_getParam('start_at'), 100);
+
+    	// load achievement info for cross reference
     	$achievement = new Model_Achievement();
+    	$cross_ref = $achievement->loadCrossReference($char);
 
-    	$achievements = $achievement->loadCrossReference($char);
+    	//echo json_encode($value)
 	}
 }

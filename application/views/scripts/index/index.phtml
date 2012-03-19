@@ -1,50 +1,11 @@
 <?php
 
-$data = array();
-$i = 0;
 
-foreach ($this->char->achievements_by_day as $day=>$achvs) {
-	$achvs = explode(',', $achvs);
-
-	$obj = new stdClass();
-	$obj->y = date("Y", $day);
-	$obj->m = date("M", $day);
-	$obj->mm = date("m", $day);
-	$obj->da = date("j", $day);
-
-	$obj->a = array();
-	//$obj->d = array();
-
-	foreach ($achvs as $a) {
-		$i++;
-		$obj2 = new stdClass();
-		$obj2->n = $this->achievements->cross_ref[$a]->name;
-		$obj2->d = $this->achievements->cross_ref[$a]->description;
-
-		if ($this->achievements->cross_ref[$a]->noteable) {
-			$obj2->no = true;
-		}
-
-		$obj->a[] = $obj2;
-
-		//$obj->a[] = $this->achievements->cross_ref[$a]->name;
-		//$obj->d[] = $this->achievements->cross_ref[$a]->description;
-
-
-		//if ($this->achievement_ref->achievementIsNotable($this->achievement_ref[$a]-)
-	}
-
-	$data[] = $obj;
-
-	if ($i >= $this->char->load_count) {
-		break;
-	}
-}
 
 ?>
 
 <script type="text/javascript">
-Timeline.data = <?php echo json_encode($data); ?>;
+Timeline.data = <?php echo json_encode($this->json_data); ?>;
 Timeline.total_entries = <?php echo count($this->char->achievements_by_day); ?>;
 Timeline.total_achvs = <?php echo count($this->char->achievements); ?>;
 Timeline.total_points = <?php echo $this->char->achievement_points; ?>;

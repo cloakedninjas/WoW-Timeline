@@ -6,6 +6,8 @@ var Timeline = {
 	scroll_percent: 0,
 	scroll_trigger: 75,
 	has_more_achvs: true,
+	load_count: 0,
+	load_in_progress: false,
 
 	plot: function() {
 		var prev_mon = null;
@@ -123,16 +125,34 @@ var Timeline = {
 
         if (this.scroll_percent >= this.scroll_trigger) {
         	if (this.has_more_achvs) {
-        		$("body").append("<p>foo</p><p>foo</p><p>foo</p><p>foo</p><p>foo</p><p>foo</p><p>foo</p><p>foo</p><p>foo</p><p>foo</p>");
+        		this.loadEntries();
         	}
         	else {
         		this.scroll_trigger = false;
         	}
-
         }
 	},
 
+	loadEntries: function() {
+		if (this.load_in_progress) {
+			return;
+		}
+
+		this.load_in_progress = true;
+		$.ajax({
+			url: "/ajax/load-entries",
+			data: {
+				start: this.load_count
+			},
+			success: function(data) {
+				Timeline.load_in_progress = false;
+				console.log(data);
+			}
+		});
+	},
+
 	init: function() {
+		this.load_count = this.data.length;
 		this.plot();
 		$(window).scroll(function (e) {
 			Timeline.scrollHandler(e);

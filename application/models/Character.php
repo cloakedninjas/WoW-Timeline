@@ -12,7 +12,7 @@ class Model_Character {// extends Model_Base {
 	public $achievements_by_day = array();
 	public $load_count;
 
-	public function load(array $params, $load_count) {
+	public function load(array $params) {
 		if (!isset($params['region'])) {
 			throw new BadMethodCallException('Missing param: region');
 		}
@@ -26,15 +26,23 @@ class Model_Character {// extends Model_Base {
 		}
 
 		$this->_armory = new Model_Armory();
-
 		$this->url = $this->_armory->getApiUrl($params);
+
+	}
+
+	public function loadJson($from = 0, $count = null) {
+		$config = Zend_Registry::get('config');
+		if ($count === null) {
+			$count = $config->app->defaultLoadCount;
+		}
+
 		$this->json = $this->_armory->loadJson($this->url);
 
 		// parse JSON
 
 		$this->firstAchievementDate = time();
 		$this->lastAchievementDate = 0;
-		$this->load_count = $load_count;
+		$this->load_count = $count;
 		$this->achievement_points = $this->json->achievementPoints;
 
 		foreach ($this->json->achievements->achievementsCompleted as $index=>$achv_id) {
@@ -66,8 +74,45 @@ class Model_Character {// extends Model_Base {
 
 		// reverse it
 		$this->achievements_by_day = array_reverse($this->achievements_by_day, true);
+
+		return $this;
 	}
 
+	public function getJsonData($achievements) {
+		$data = array();
+		$i = 0;
+
+		foreach ($this->achievements_by_day as $day=>$achvs) {
+			$achvs = explode(',', $achvs);
+
+			$obj = new stdClass();
+			$obj->y = date("Y", $day);
+			$obj->m = date("M", $day);
+			$obj->mm = date("m", $day);
+			$obj->da = date("j", $day);
+
+			$obj->a = array();
+
+			foreach ($achvs as $a) {
+				$i++;
+				$obj2 = new stdClass();
+				$obj2->n = $achievements->cross_ref[$a]->name;
+				$obj2->d = $achievements->cross_ref[$a]->description;
+
+				if ($achievements->cross_ref[$a]->noteable) {
+					$obj2->no = true;
+				}
+
+				$obj->a[] = $obj2;
+			}
+
+			$data[] = $obj;
+
+			if ($i >= $this->load_count) {
+				break;
+			}
+		}
+	}
 
 
 }
