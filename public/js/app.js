@@ -1,4 +1,5 @@
 var Timeline = {
+	data: [],
 	left_height: 5,
 	right_height: 20,
 	max_height: 20,
@@ -12,7 +13,7 @@ var Timeline = {
 	plot: function() {
 		var prev_mon = null;
 
-		for (var day_idx = 0; day_idx < this.data.length; day_idx++) {
+		for (var day_idx = this.load_count; day_idx < this.data.length; day_idx++) {
 
 			// time indexes
 			if (prev_mon != this.data[day_idx].mm) {
@@ -60,6 +61,7 @@ var Timeline = {
 
 			this.addToTimeline(html);
 		}
+		this.load_count = this.data.length;
 	},
 
 	plotNotable: function(data) {
@@ -145,14 +147,15 @@ var Timeline = {
 				start: this.load_count
 			},
 			success: function(data) {
-				Timeline.load_in_progress = false;
-				console.log(data);
+				//Timeline.load_in_progress = false;
+				Timeline.data.concat(data);
+				Timeline.plot();
+				//console.log(data);
 			}
 		});
 	},
 
 	init: function() {
-		this.load_count = this.data.length;
 		this.plot();
 		$(window).scroll(function (e) {
 			Timeline.scrollHandler(e);

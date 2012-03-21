@@ -15,13 +15,13 @@ class IndexController extends Zend_Controller_Action {
     			'name' => 'Halbu'
     	));
 
-    	$char->loadJson(0, 100);
+    	$char->loadAchievements(0, 100);
+    	$this->view->char = $char;
 
     	// load achievement info for cross reference
     	$achievement = new Model_Achievement();
+    	$achievement_data = $achievement->loadCrossReference($char->achievements_by_day);
 
-    	$this->view->achievements = $achievement->loadCrossReference($char);
-    	$this->view->char = $char;
-    	$this->view->json_data = $char->getJsonData();
+    	$this->view->json_data = $char->getJsonFormat($achievement_data);
 	}
 }

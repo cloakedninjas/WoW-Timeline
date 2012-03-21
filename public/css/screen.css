@@ -93,7 +93,6 @@ body {
 	left: 0;
 	right: 0;
 	opacity: 0.8;
-	display: none;
 }
 #time_index .cata {
 	top: 0;
@@ -127,7 +126,6 @@ body {
 	border-radius: 5px;
 	background: #333;
 	color: #fff;
-	visibility: hidden;
 }
 
 #timeline .entry.hover {

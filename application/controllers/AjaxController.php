@@ -15,12 +15,12 @@ class AjaxController extends Zend_Controller_Action {
     			'name' => 'Halbu'
     	));
 
-    	$char->loadJson($this->_getParam('start_at'), 100);
+    	$char->loadAchievements($this->_getParam('start'), 100);
 
     	// load achievement info for cross reference
     	$achievement = new Model_Achievement();
-    	$cross_ref = $achievement->loadCrossReference($char);
+    	$achievement_data = $achievement->loadCrossReference($char->achievements_by_day);
 
-    	//echo json_encode($value)
+    	echo $char->getJsonFormat($achievement_data);
 	}
 }

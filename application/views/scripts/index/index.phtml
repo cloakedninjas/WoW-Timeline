@@ -1,11 +1,9 @@
 <?php
 
-
-
 ?>
 
 <script type="text/javascript">
-Timeline.data = <?php echo json_encode($this->json_data); ?>;
+Timeline.data = <?php echo $this->json_data; ?>;
 Timeline.total_entries = <?php echo count($this->char->achievements_by_day); ?>;
 Timeline.total_achvs = <?php echo count($this->char->achievements); ?>;
 Timeline.total_points = <?php echo $this->char->achievement_points; ?>;

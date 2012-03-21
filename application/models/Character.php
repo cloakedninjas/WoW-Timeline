@@ -10,7 +10,9 @@ class Model_Character {// extends Model_Base {
 	public $url;
 	public $achievements = array();
 	public $achievements_by_day = array();
-	public $load_count;
+
+	public $entry_start = 0;
+	public $entry_count = 0;
 
 	public function load(array $params) {
 		if (!isset($params['region'])) {
@@ -30,21 +32,17 @@ class Model_Character {// extends Model_Base {
 
 	}
 
-	public function loadJson($from = 0, $count = null) {
-		$config = Zend_Registry::get('config');
-		if ($count === null) {
-			$count = $config->app->defaultLoadCount;
-		}
+	public function loadAchievements($start, $count) {
+		$this->entry_start = $start;
+		$this->entry_count = $count;
 
 		$this->json = $this->_armory->loadJson($this->url);
 
-		// parse JSON
-
 		$this->firstAchievementDate = time();
 		$this->lastAchievementDate = 0;
-		$this->load_count = $count;
 		$this->achievement_points = $this->json->achievementPoints;
 
+		// parse JSON
 		foreach ($this->json->achievements->achievementsCompleted as $index=>$achv_id) {
 
 			$time = $this->json->achievements->achievementsCompletedTimestamp[$index] / 1000;
@@ -75,10 +73,14 @@ class Model_Character {// extends Model_Base {
 		// reverse it
 		$this->achievements_by_day = array_reverse($this->achievements_by_day, true);
 
+		// splice it to the required portion
+		$this->achievements_by_day = array_slice($this->achievements_by_day, $start, $count, true);
+
 		return $this;
 	}
 
-	public function getJsonData($achievements) {
+	public function getJsonFormat($achievements) {
+
 		$data = array();
 		$i = 0;
 
@@ -107,11 +109,9 @@ class Model_Character {// extends Model_Base {
 			}
 
 			$data[] = $obj;
-
-			if ($i >= $this->load_count) {
-				break;
-			}
 		}
+
+		return json_encode($data);
 	}
 
 
