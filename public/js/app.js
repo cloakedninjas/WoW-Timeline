@@ -146,11 +146,15 @@ var Timeline = {
 			data: {
 				start: this.load_count
 			},
+			dataType: "json",
 			success: function(data) {
 				//Timeline.load_in_progress = false;
-				Timeline.data.concat(data);
+				
+				//console.log(Timeline.data.length);
+				Timeline.data = Timeline.data.concat(data);
+				
 				Timeline.plot();
-				//console.log(data);
+				//console.log(Timeline.data.length);
 			}
 		});
 	},
