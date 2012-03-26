@@ -92,7 +92,7 @@ body {
 	position: absolute;
 	left: 0;
 	right: 0;
-	opacity: 0.8;
+	bottom: 0;
 }
 
 #time_index .mop {
@@ -193,13 +193,29 @@ body {
 }
 
 #timeline .notable .date {
-	margin: 0;
-	float: right;
+	position: absolute;
+	right: 5px;
+	top: 5px;
+	font-weight: normal;
 }
 
 #timeline .notable h4 {
 	margin: 0 0 5px;
 	color: gold;
+}
+
+#timeline .loading {
+	position: fixed;
+	left: 5px;
+	right: 5px;
+	bottom: -51px;
+	height: 50px;
+	line-height: 50px;
+	background: #fff;
+	border: 1px #000 solid;
+	border-bottom: 0;
+	font-size: 24px;
+	text-align: center;
 }
 
 .c1,.c1 a{color:#C69B6D!important;}.c2,.c2 a{color:#F48CBA!important;}.c3,.c3 a{color:#AAD372!important;}.c4,.c4 a{color:#FFF468!important;}.c5,.c5 a{color:#FFF!important;}.c6,.c6 a{color:#C41E3B!important;}.c7,.c7 a{color:#2359FF!important;}.c8,.c8 a{color:#68CCEF!important;}.c9,.c9 a{color:#9382C9!important;}.c11,.c11 a{color:#FF7C0A!important;}.c12,.c12 a{color:#008467!important;}

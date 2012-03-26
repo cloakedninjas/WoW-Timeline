@@ -29,8 +29,13 @@ var Timeline = {
 
 			// exp gradients
 			if (typeof this.data[day_idx].exp != 'undefined') {
-				if (this.expansions.last_rendered != null) {
-					this.expansions.px = this.max_height;
+				if (this.expansions.last_rendered != this.data[day_idx].exp) {
+					if (this.expansions.last_rendered == null) {
+
+					}
+					else {
+						this.expansions.px = this.max_height;
+					}
 					$("#exp_" + this.expansions.last_rendered).css("height", this.expansions.px);
 				}
 
@@ -39,50 +44,45 @@ var Timeline = {
 			}
 
 			// entries
-			var html = $("#entry_template").clone();
-
-			html.removeAttr("id");
-
-			html.find(".date").text(this.data[day_idx].da + " " + this.data[day_idx].m);
-			html.attr("data-day", day_idx);
-
 			var entry = '';
-			var expand = this.data[day_idx].a.length > 2;
 
 			for (var ach_idx = 0; ach_idx < this.data[day_idx].a.length; ach_idx++) {
 
 				if (this.data[day_idx].a[ach_idx].no) {
 					// notable achievements done elsewhere
-					this.plotNotable(this.data[day_idx].a[ach_idx]);
+					this.plotNotable(day_idx, ach_idx);
 					continue;
 				}
-
-				entry = "<p title=\"" + this.data[day_idx].a[ach_idx].d + "\"";
-				if (ach_idx >= 2) {
-					//entry += " class=\"hidden\"";
+				else {
+					entry = "<p title=\"" + this.data[day_idx].a[ach_idx].d + "\"";
+					entry += ">" + this.data[day_idx].a[ach_idx].n + "</p>";
 				}
-				entry += ">" + this.data[day_idx].a[ach_idx].n + "</p>";
+			}
 
+			if (entry != '') {
+				var html = $("#entry_template").clone();
+
+				html.removeAttr("id");
+
+				html.find(".date").text(this.data[day_idx].da + " " + this.data[day_idx].m);
+				html.attr("data-day", day_idx);
 				html.append(entry);
+
+				var side = (this.left_height > this.right_height) ? 'right' : 'left';
+				html.addClass(side);
+
+				this.addToTimeline(html);
 			}
-
-			if (expand) {
-				//html.append("<a class=\"exp\" onmouseenter=\"Timeline.expandDay(" + day_idx + ")\">+" + (this.data[day_idx].a.length - 2) + "</a>");
-				//html.attr("onmouseleave", "Timeline.collapseDay(" + day_idx + ")");
-			}
-
-			var side = (this.left_height > this.right_height) ? 'right' : 'left';
-			html.addClass(side);
-
-			this.addToTimeline(html);
 		}
 		this.load_count = this.data.length;
 	},
 
-	plotNotable: function(data) {
+	plotNotable: function(day_idx, ach_idx) {
+		console.log(this.data[day_idx].a[ach_idx]);
+
 		var html = $("#notable_template").clone();
 		html.removeAttr("id");
-		html.append("<h4>" + data.n + "</h4><p>" + data.d + "</p>");
+		html.append("<h4>" + this.data[day_idx].a[ach_idx].n + "<span class=\"date\">" + this.data[day_idx].da + " " + this.data[day_idx].m + "</span></h4><p>" + this.data[day_idx].a[ach_idx].d + "</p>");
 
 		this.addToTimeline(html);
 	},
@@ -156,6 +156,8 @@ var Timeline = {
 		}
 
 		this.load_in_progress = true;
+		$("#timeline .loading").animate({bottom: 0}, 100);
+
 		$.ajax({
 			url: "/ajax/load-entries",
 			data: {
@@ -164,8 +166,13 @@ var Timeline = {
 			dataType: "json",
 			success: function(data) {
 				Timeline.load_in_progress = false;
+				$("#timeline .loading").animate({bottom: "-51px"}, 100);
 				Timeline.data = Timeline.data.concat(data);
 				Timeline.plot();
+
+				if (Timeline.load_count >= Timeline.total_entries) {
+					Timeline.has_more_achvs = false;
+				}
 			}
 		});
 	},
