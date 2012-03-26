@@ -1,6 +1,11 @@
 <?php
 class Model_Achievement extends Model_Base {
 
+	const EXP_INTRO = 0;
+	const EXP_WOTLK = 1;
+	const EXP_CATA = 2;
+	const EXP_MOP = 3;
+
 	protected $_dbTableName = 'achievements';
 
 	public $cross_ref = array();
@@ -33,6 +38,23 @@ class Model_Achievement extends Model_Base {
 		}
 
 		return $this;
+	}
+
+	public function getExpansion($date) {
+		$config = Zend_Registry::get('config');
+
+		$region = 'us';
+
+		$exps = $config->wow->expansions->$region;
+
+		$return = 0;
+		foreach ($exps as $index=>$e) {
+			if ($date >= $e) {
+				$return = $index;
+			}
+		}
+
+		return $return;
 	}
 
 	public function insert($object, $parent_category) {

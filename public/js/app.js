@@ -9,6 +9,10 @@ var Timeline = {
 	has_more_achvs: true,
 	load_count: 0,
 	load_in_progress: false,
+	expansions: {
+		last_rendered: null,
+		px: 0
+	},
 
 	plot: function() {
 		var prev_mon = null;
@@ -22,6 +26,17 @@ var Timeline = {
 				$("#time_index").append("<p style=\"top: " + h + "px;\">" + this.data[day_idx].m + "</p>");
 			}
 			prev_mon = this.data[day_idx].mm;
+
+			// exp gradients
+			if (typeof this.data[day_idx].exp != 'undefined') {
+				if (this.expansions.last_rendered != null) {
+					this.expansions.px = this.max_height;
+					$("#exp_" + this.expansions.last_rendered).css("height", this.expansions.px);
+				}
+
+				$("#exp_" + this.data[day_idx].exp).css("top", this.expansions.px);
+				this.expansions.last_rendered = this.data[day_idx].exp;
+			}
 
 			// entries
 			var html = $("#entry_template").clone();
@@ -146,20 +161,26 @@ var Timeline = {
 			data: {
 				start: this.load_count
 			},
+			dataType: "json",
 			success: function(data) {
-				//Timeline.load_in_progress = false;
-				Timeline.data.concat(data);
+				Timeline.load_in_progress = false;
+				Timeline.data = Timeline.data.concat(data);
 				Timeline.plot();
-				//console.log(data);
 			}
 		});
 	},
 
 	init: function() {
 		this.plot();
-		$(window).scroll(function (e) {
-			Timeline.scrollHandler(e);
-		});
+
+		if (this.load_count >= this.total_entries) {
+			this.has_more_achvs = false;
+		}
+		else {
+			$(window).scroll(function (e) {
+				Timeline.scrollHandler(e);
+			});
+		}
 	}
 
 };

@@ -67,6 +67,8 @@ class Model_Character {// extends Model_Base {
 			}
 		}
 
+		$this->total_entries = count($this->achievements_by_day);
+
 		// sort them by date order
 		ksort($this->achievements_by_day);
 
@@ -79,10 +81,12 @@ class Model_Character {// extends Model_Base {
 		return $this;
 	}
 
-	public function getJsonFormat($achievements) {
+	public function getJsonFormat(Model_Achievement $achievements) {
 
 		$data = array();
 		$i = 0;
+
+		$prev_exp = null;
 
 		foreach ($this->achievements_by_day as $day=>$achvs) {
 			$achvs = explode(',', $achvs);
@@ -92,8 +96,15 @@ class Model_Character {// extends Model_Base {
 			$obj->m = date("M", $day);
 			$obj->mm = date("m", $day);
 			$obj->da = date("j", $day);
-
 			$obj->a = array();
+
+			$exp = $achievements->getExpansion($day);
+
+			if ($prev_exp != $exp) {
+				$obj->exp = $exp;
+			}
+
+			$prev_exp = $exp;
 
 			foreach ($achvs as $a) {
 				$i++;

@@ -19,7 +19,7 @@ body {
 	border-radius: 5px;
 	background: #040404;
 	color: #fff;
-	
+	display: none;
 }
 
 #header .profile {
@@ -94,16 +94,21 @@ body {
 	right: 0;
 	opacity: 0.8;
 }
+
+#time_index .mop {
+	background: #CA3B16;
+}
+
 #time_index .cata {
-	top: 0;
-	height: 200px;
 	background: #CA3B16;
 }
 
 #time_index .wotlk {
-	top: 200px;
 	background: #263669;
-	opacity: 0.8;
+}
+
+#time_index .tbc {
+	background: #3F5621;
 }
 
 #time_index p {
