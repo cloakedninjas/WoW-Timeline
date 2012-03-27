@@ -1,0 +1,22 @@
+<h1>Results of sync</h1>
+
+<h2>Found (<?php echo $this->results['found']; ?>)</h2>
+
+<h2>Added (<?php echo count($this->results['add']); ?>)</h2>
+<ul>
+
+<?php foreach ($this->results['add'] as $r) { ?>
+<li><?php echo $r; ?></li>
+<?php } ?>
+
+</ul>
+
+
+<h2>Removed (<?php echo count($this->results['delete']); ?>)</h2>
+<ul>
+
+<?php foreach ($this->results['delete'] as $r) { ?>
+<li><?php echo $r; ?></li>
+<?php } ?>
+
+</ul>

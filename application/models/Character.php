@@ -7,7 +7,6 @@ class Model_Character {// extends Model_Base {
 	protected $_armory;
 	protected $json;
 
-	public $url;
 	public $achievements = array();
 	public $achievements_by_day = array();
 
@@ -27,16 +26,14 @@ class Model_Character {// extends Model_Base {
 			throw new BadMethodCallException('Missing param: name');
 		}
 
-		$this->_armory = new Model_Armory();
-		$this->url = $this->_armory->getApiUrl($params);
-
+		$this->_armory = new Model_Armory($params);
 	}
 
 	public function loadAchievements($start, $count) {
 		$this->entry_start = $start;
 		$this->entry_count = $count;
 
-		$this->json = $this->_armory->loadJson($this->url);
+		$this->json = $this->_armory->getCharacterProfile(array('achievements'));
 
 		$this->firstAchievementDate = time();
 		$this->lastAchievementDate = 0;

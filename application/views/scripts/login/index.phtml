@@ -1,0 +1,21 @@
+<div id="login">
+	<form action="/login" method="post">
+		<p>
+			<label for="username">u:</label>
+			<input type="text" name="username" id="username" />
+		</p>
+
+		<p>
+			<label for="password">p:</label>
+			<input type="password" name="password" id="password" />
+		</p>
+
+		<p>
+			<input type="submit" value="Login" />
+		</p>
+
+		<?php if (isset($this->error)) { ?>
+		<p class="error"><?php echo $this->error; ?></p>
+		<?php } ?>
+	</form>
+</div>
