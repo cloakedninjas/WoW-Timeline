@@ -66,17 +66,34 @@ class Model_Achievement extends Model_Base {
 		$this->save(true);
 	}
 
-	public function load() {
-		$url = "http://eu.battle.net/api/wow/data/character/achievements";
-		$json = json_decode(file_get_contents($url));
+	public function checkMatchesArmory($achv, $cat_id) {
+		$update = false;
 
-
-		foreach ($json->achievements as $a) {
-			foreach ($a->achievements as $a) {
-				var_dump($a);
-				exit;
-			}
+		if ($this->name != $achv->title) {
+			$update = true;
+			$this->name = $achv->title;
 		}
+
+		if ($this->description != $achv->description) {
+			$update = true;
+			$this->description = $achv->description;
+		}
+
+		if ($this->points != $achv->points) {
+			$update = true;
+			$this->points = $achv->points;
+		}
+
+		if ($this->category_id != $cat_id) {
+			$update = true;
+			$this->category_id = $cat_id;
+		}
+
+		if ($update) {
+			$this->save();
+		}
+
+		return $update;
 	}
 
 	public function fetchAll($where = null) {

@@ -86,7 +86,10 @@ class AdminController extends Zend_Controller_Action {
 			'category_add'=>array(),
 			'category_remove'=>array(),
 			'category_update'=>array(),
-			'achv_add'=>array()
+			'category_check'=>0,
+			'achv_add'=>array(),
+			'achv_update'=>array(),
+			'achv_check'=>0
 		);
 
     	$armory = new Model_Armory();
@@ -102,13 +105,19 @@ class AdminController extends Zend_Controller_Action {
     		if ($exists->rowCount() == 0) {
     			// create new category
     			$ac = new Model_AchievementCategory();
-    			$ac->id = $category->id;
-    			$ac->name = $category->name;
-    			$ac->parent_id = 0;
-    			$ac->save(true);
+    			$ac->insert($category);
 
     			$results['category_add'][] = $category->name;
 			}
+			else {
+				$ac = new Model_AchievementCategory($exists->fetch()->id);
+				$update = $ac->checkMatchesArmory($category, 0);
+
+				if ($update) {
+					$results['category_update'][] = $category->name;
+				}
+			}
+			$results['category_check']++;
 
 			// go through each achievement at the root level
 
@@ -120,41 +129,65 @@ class AdminController extends Zend_Controller_Action {
 		    			// create new achievement
 		    			$a = new Model_Achievement();
 		    			$a->insert($achievement, $category->id);
-
 		    			$results['achv_add'][] = $achievement->name;
 					}
+					else {
+						$a = new Model_Achievement($exists->fetch()->id);
+						$update = $a->checkMatchesArmory($achievement, $category->id);
+
+						if ($update) {
+							$results['achv_update'][] = $achievement->name;
+						}
+					}
+					$results['achv_check']++;
 				}
 			}
 
 			if (isset($category->categories)) {
 
 				foreach($category->categories as $sub_category) {
+
+					// does the sub category exist?
 					$exists = $db->query('SELECT id FROM achievement_categories WHERE id = ' . intval($sub_category->id));
 
 					if ($exists->rowCount() == 0) {
 		    			// create new category
 		    			$ac = new Model_AchievementCategory();
-		    			$ac->id = $sub_category->id;
-		    			$ac->name = $sub_category->name;
-		    			$ac->parent_id = $category->id;
-		    			$ac->save(true);
-
+    					$ac->insert($sub_category, $category->id);
 		    			$results['category_add'][] = $category->name . ' : ' . $sub_category->name;
 					}
-				}
+					else {
+						$ac = new Model_AchievementCategory($exists->fetch()->id);
+						$update = $ac->checkMatchesArmory($sub_category, $category->id);
 
-				// go through each achievement at the root level
+						if ($update) {
+							$results['category_update'][] = $category->name . ' : ' . $sub_category->name;
+						}
+					}
+					$results['category_check']++;
 
-				if (isset($sub_category->achievements)) {
-					foreach ($sub_category->achievements as $achievement) {
-						$exists = $db->query('SELECT id FROM achievements WHERE id = ' . intval($achievement->id));
+					// go through each achievement at the sub category level
 
-						if ($exists->rowCount() == 0) {
-			    			// create new achievement
-			    			$a = new Model_Achievement();
-			    			$a->insert($achievement, $category->id);
+					if (isset($sub_category->achievements)) {
+						foreach ($sub_category->achievements as $achievement) {
+							$exists = $db->query('SELECT id FROM achievements WHERE id = ' . intval($achievement->id));
 
-			    			$results['achv_add'][] = $category->name . ' : ' . $achievement->name;
+							if ($exists->rowCount() == 0) {
+				    			// create new achievement
+				    			$a = new Model_Achievement();
+				    			$a->insert($achievement, $sub_category->id);
+
+				    			$results['achv_add'][] = $category->name . ' : ' . $achievement->name;
+							}
+							else {
+								$a = new Model_Achievement($exists->fetch()->id);
+								$update = $a->checkMatchesArmory($achievement, $sub_category->id);
+
+								if ($update) {
+									$results['achv_update'][] = $category->name . ' : ' . $achievement->name;
+								}
+							}
+							$results['achv_check']++;
 						}
 					}
 				}
