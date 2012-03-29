@@ -1,4 +1,4 @@
 <?php
-class Model_Realm extends Model_Base {
+class App_Model_Realm extends App_Model_Base {
 	protected $_dbTableName = 'realms';
 }

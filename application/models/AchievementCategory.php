@@ -1,5 +1,5 @@
 <?php
-class Model_AchievementCategory extends Model_Base {
+class App_Model_AchievementCategory extends App_Model_Base {
 	protected $_dbTableName = 'achievement_categories';
 
 	public function insert($object, $parent_category=0) {

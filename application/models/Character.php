@@ -1,9 +1,9 @@
 <?php
-class Model_Character {// extends Model_Base {
+class App_Model_Character extends App_Model_Base {
 
 	//http:// <region> + .battle.net/static-render/ + <region> + / + <the string you got from API as thumbnail>
 
-	protected $_dbTableName = 'chars';
+	protected $_dbTableName = 'characters';
 	protected $_armory;
 	protected $json;
 
@@ -26,7 +26,7 @@ class Model_Character {// extends Model_Base {
 			throw new BadMethodCallException('Missing param: name');
 		}
 
-		$this->_armory = new Model_Armory($params);
+		$this->_armory = new App_Model_Armory($params);
 	}
 
 	public function loadAchievements($start, $count) {
@@ -78,7 +78,7 @@ class Model_Character {// extends Model_Base {
 		return $this;
 	}
 
-	public function getJsonFormat(Model_Achievement $achievements) {
+	public function getJsonFormat(App_Model_Achievement $achievements) {
 
 		$data = array();
 		$i = 0;

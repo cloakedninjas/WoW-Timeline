@@ -1,6 +1,6 @@
 <?php
 
-abstract class Model_Base {
+abstract class App_Model_Base {
 	const DB_DATE_FORMAT = 'Y-m-d H:i:s';
 	const DB_NULL_DATE = '0000-00-00 00:00:00';
 
@@ -34,7 +34,7 @@ abstract class Model_Base {
 		);
 
 		//$cache->clean(Zend_Cache::CLEANING_MODE_ALL);
-		$this->_dbTable = new Model_BaseMapper($this->_dbTableName, array('metadataCache' => $cache));
+		$this->_dbTable = new App_Model_BaseMapper($this->_dbTableName, array('metadataCache' => $cache));
 		return $this;
 	}
 

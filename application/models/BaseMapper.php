@@ -1,6 +1,6 @@
 <?php
 
-class Model_BaseMapper extends Zend_Db_Table_Abstract {
+class App_Model_BaseMapper extends Zend_Db_Table_Abstract {
 	protected $_name;
 
 	public function __construct($name, $config=array()) {

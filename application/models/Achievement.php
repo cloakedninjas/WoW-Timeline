@@ -1,5 +1,5 @@
 <?php
-class Model_Achievement extends Model_Base {
+class App_Model_Achievement extends App_Model_Base {
 
 	const EXP_INTRO = 0;
 	const EXP_WOTLK = 1;

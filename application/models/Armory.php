@@ -1,5 +1,5 @@
 <?php
-class Model_Armory {
+class App_Model_Armory {
 
 	const REGION_US = 1;
 	const REGION_EU = 2;

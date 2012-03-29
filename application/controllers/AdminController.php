@@ -19,7 +19,7 @@ class AdminController extends Zend_Controller_Action {
 
     	set_time_limit(0);
 
-    	$armory = new Model_Armory();
+    	$armory = new App_Model_Armory();
     	$realms = $armory->getRealmList();
 
     	$db = Zend_Registry::get('db');
@@ -62,7 +62,7 @@ class AdminController extends Zend_Controller_Action {
 	    		if (!$exists) {
 	    			$results['add'][] = $realm->name;
 
-	    			$r = new Model_Realm();
+	    			$r = new App_Model_Realm();
 	    			$r->name = $realm->name;
 	    			$r->slug = $realm->slug;
 	    			$r->region = array_search($region, $armory->region_list);
@@ -92,7 +92,7 @@ class AdminController extends Zend_Controller_Action {
 			'achv_check'=>0
 		);
 
-    	$armory = new Model_Armory();
+    	$armory = new App_Model_Armory();
     	$achievements = $armory->getAchievementResource()->achievements;
 
     	$db = Zend_Registry::get('db');
@@ -104,13 +104,13 @@ class AdminController extends Zend_Controller_Action {
 
     		if ($exists->rowCount() == 0) {
     			// create new category
-    			$ac = new Model_AchievementCategory();
+    			$ac = new App_Model_AchievementCategory();
     			$ac->insert($category);
 
     			$results['category_add'][] = $category->name;
 			}
 			else {
-				$ac = new Model_AchievementCategory($exists->fetch()->id);
+				$ac = new App_Model_AchievementCategory($exists->fetch()->id);
 				$update = $ac->checkMatchesArmory($category, 0);
 
 				if ($update) {
@@ -127,12 +127,12 @@ class AdminController extends Zend_Controller_Action {
 
 					if ($exists->rowCount() == 0) {
 		    			// create new achievement
-		    			$a = new Model_Achievement();
+		    			$a = new App_Model_Achievement();
 		    			$a->insert($achievement, $category->id);
 		    			$results['achv_add'][] = $achievement->name;
 					}
 					else {
-						$a = new Model_Achievement($exists->fetch()->id);
+						$a = new App_Model_Achievement($exists->fetch()->id);
 						$update = $a->checkMatchesArmory($achievement, $category->id);
 
 						if ($update) {
@@ -152,12 +152,12 @@ class AdminController extends Zend_Controller_Action {
 
 					if ($exists->rowCount() == 0) {
 		    			// create new category
-		    			$ac = new Model_AchievementCategory();
+		    			$ac = new App_Model_AchievementCategory();
     					$ac->insert($sub_category, $category->id);
 		    			$results['category_add'][] = $category->name . ' : ' . $sub_category->name;
 					}
 					else {
-						$ac = new Model_AchievementCategory($exists->fetch()->id);
+						$ac = new App_Model_AchievementCategory($exists->fetch()->id);
 						$update = $ac->checkMatchesArmory($sub_category, $category->id);
 
 						if ($update) {
@@ -174,13 +174,13 @@ class AdminController extends Zend_Controller_Action {
 
 							if ($exists->rowCount() == 0) {
 				    			// create new achievement
-				    			$a = new Model_Achievement();
+				    			$a = new App_Model_Achievement();
 				    			$a->insert($achievement, $sub_category->id);
 
 				    			$results['achv_add'][] = $category->name . ' : ' . $achievement->name;
 							}
 							else {
-								$a = new Model_Achievement($exists->fetch()->id);
+								$a = new App_Model_Achievement($exists->fetch()->id);
 								$update = $a->checkMatchesArmory($achievement, $sub_category->id);
 
 								if ($update) {
@@ -195,109 +195,10 @@ class AdminController extends Zend_Controller_Action {
 
     	}
 
-    	var_dump($results);
-    	exit;
+    	$this->view->results = $results;
 
-    	$existing_achievements = $db->fetchAll('SELECT * FROM achievements');
-
+    	//$existing_achievements = $db->fetchAll('SELECT * FROM achievements');
     }
-
-    public function foo() {
-
-    	// get Halbu achieves
-
-    	//$json = json_decode(file_get_contents('http://eu.battle.net/api/wow/character/lightbringer/halbu?fields=achievements'));
-
-		//$cross_ref = Model_Achievement::loadCrossReference();
-
-		//var_dump($cross_ref);
-
-    	$achv = new Model_Achievement();
-    	$current = $achv->fetchAll();
-
-    	//var_dump($list);
-    	//exit;
-
-
-    	$json = json_decode(file_get_contents('http://eu.battle.net/api/wow/data/character/achievements'));
-
-    	echo "<pre>";
-    	//var_dump($json);
-
-    	$found = $added = 0;
-
-    	foreach ($json->achievements as $a) {
-    		if (isset($a->achievements)) {
-    			foreach($a->achievements as $b) {
-    				$exists = false;
-
-    				$found++;
-
-    				foreach ($current as $cur) {
-    					//var_dump($cur->id);
-    					//var_dump($b->id);
-    					//exit;
-
-    					if ($cur->id == $b->id) {
-    						$exists = true;
-    						break;
-    					}
-    				}
-
-    				if (!$exists) {
-    					$added++;
-    					$new_ach = new Model_Achievement();
-    					$new_ach->insert($b, $a->id);
-    				}
-    			}
-    		}
-
-    		if (isset($a->categories)) {
-
-    			foreach($a->categories as $c) {
-	    			if (isset($c->achievements)) {
-
-
-		    			foreach($c->achievements as $d) {
-		    				$exists = false;
-
-		    				$found++;
-
-		    				foreach ($current as $cur) {
-		    					if ($cur->id == $d->id) {
-		    						//echo "<p>$found : $cur->id == $b->id</p>";
-		    						$exists = true;
-		    						break;
-		    					}
-		    				}
-
-		    				if (!$exists) {
-		    					$added++;
-		    					$new_ach = new Model_Achievement();
-		    					$new_ach->insert($d, $c->id);
-		    				}
-
-		    				if (isset($c->categories)) {
-		    					echo "erm? morrrre?";
-		    					exit;
-		    				}
-		    			}
-
-		    		}
-    			}
-
-    		}
-
-    	}
-
-
-    	echo "foound $found<Br />added $added";
-
-    	exit;
-
-	}
-
-
 
 
 }
