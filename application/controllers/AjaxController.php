@@ -23,4 +23,19 @@ class AjaxController extends Zend_Controller_Action {
 
     	echo $char->getJsonFormat($achievement_data);
 	}
+
+	public function loadRealmsAction() {
+
+		$results = array();
+
+		if ($this->_getParam('region') == null || $this->_getParam('prefix') == null) {
+
+		}
+		else {
+			$armory = new App_Model_Armory();
+			$results = $armory->lookupRealm($this->_getParam('region'), $this->_getParam('prefix'), 20);
+		}
+
+		echo json_encode($results);
+	}
 }

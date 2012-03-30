@@ -78,6 +78,21 @@ class App_Model_Armory {
 		return $this->makeRequest($url);
 	}
 
+	public function lookupRealm($region, $prefix, $limit) {
+		$db = Zend_Registry::get('db');
+
+		$prefix = str_replace('%', '', $prefix) . '%';
+		$prefix = ucfirst($prefix);
+
+		$query = '
+		SELECT name FROM realms WHERE region = ' . intval($region) . ' AND name LIKE ' . $db->quote($prefix) . '
+		ORDER BY name
+		LIMIT ' . intval($limit);
+
+		echo $query;
+		exit;
+	}
+
 	protected function getBaseUrl() {
 		return 'http://' . strtolower($this->params['region']) . '.battle.net';
 	}

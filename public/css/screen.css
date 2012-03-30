@@ -17,7 +17,16 @@ a {
 	margin: 20px auto;
 }
 
-#header {
+#realm_suggest {
+	display: none;
+	list-style-type: none;
+}
+
+#realm_suggest li {
+	
+}
+
+#char_char_header {
 	padding: 5px;
 	border: 1px #333 solid;
 	border-radius: 5px;
@@ -26,12 +35,12 @@ a {
 	display: none;
 }
 
-#header .profile {
+#char_char_header .profile {
 	position: relative;
 	font-family: 'Gudea';
 }
 
-#header .thumb {
+#char_header .thumb {
 	width: 84px;
 	height: 84px;
 	border-radius: 3px;
@@ -39,7 +48,7 @@ a {
 	background-repeat: no-repeat;
 }
 
-#header h1 {
+#char_header h1 {
 	position: absolute;
 	left: 95px;
 	top: 0;
@@ -48,7 +57,7 @@ a {
 	text-shadow: #fff 0 0 2px;
 }
 
-#header h2 {
+#char_header h2 {
 	position: absolute;
 	left: 95px;
 	top: 33px;
@@ -56,7 +65,7 @@ a {
 	font-weight: 700;
 }
 
-#header h3 {
+#char_header h3 {
 	position: absolute;
 	left: 95px;
 	top: 65px;
@@ -64,12 +73,12 @@ a {
 	font-weight: normal;
 }
 
-#header h3 .level, #header h3 .race {
+#char_header h3 .level, #char_header h3 .race {
 	padding: 0 5px;
 	border-right: 1px #ccc solid;
 }
 
-#header h3 .class {
+#char_header h3 .class {
 	padding: 0 5px;
 }
 
@@ -220,6 +229,13 @@ a {
 	border-bottom: 0;
 	font-size: 24px;
 	text-align: center;
+}
+
+.ajaxload {
+	display: inline-block;
+	width: 16px;
+	height: 16px;
+	background: url(/images/ajax_load.gif) top left no-repeat;
 }
 
 .c1,.c1 a{color:#C69B6D!important;}.c2,.c2 a{color:#F48CBA!important;}.c3,.c3 a{color:#AAD372!important;}.c4,.c4 a{color:#FFF468!important;}.c5,.c5 a{color:#FFF!important;}.c6,.c6 a{color:#C41E3B!important;}.c7,.c7 a{color:#2359FF!important;}.c8,.c8 a{color:#68CCEF!important;}.c9,.c9 a{color:#9382C9!important;}.c11,.c11 a{color:#FF7C0A!important;}.c12,.c12 a{color:#008467!important;}

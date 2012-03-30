@@ -15,13 +15,18 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap {
     	$config = new Zend_Config($this->getOptions());
     	Zend_Registry::set('config',$config);
 
-    	//$this->bootstrap('db');
-    	//$db = $this->getPluginResource('db');
-    	//Zend_Registry::set('db', $db->getDbAdapter('db'));
-    	//$db->getDbAdapter()->setFetchMode(Zend_Db::FETCH_OBJ);
+    	$db = $this->getPluginResource('db');
+    	$db->getDbAdapter()->setFetchMode(Zend_Db::FETCH_OBJ);
+    	Zend_Registry::set('db', $db->getDbAdapter('db'));
 
     	// profiler
     	//$db->getDbAdapter()->getProfiler()->setEnabled(false);
 
     }
+
+    protected function _initRoutes() {
+    	$ctrl  = Zend_Controller_Front::getInstance();
+		$router = $ctrl->getRouter();
+		$router->addRoute('chars', new Zend_Controller_Router_Route('char/:region/:realm/:name', array('controller' => 'char')));
+	}
 }

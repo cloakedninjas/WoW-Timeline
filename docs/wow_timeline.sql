@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50519
 File Encoding         : 65001
 
-Date: 2012-03-27 17:31:46
+Date: 2012-03-30 17:29:41
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -1943,7 +1943,7 @@ CREATE TABLE `characters` (
 DROP TABLE IF EXISTS `realms`;
 CREATE TABLE `realms` (
   `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
-  `name` varchar(128) NOT NULL,
+  `name` varchar(128) CHARACTER SET utf8 COLLATE utf8_bin NOT NULL,
   `slug` varchar(128) NOT NULL,
   `region` tinyint(3) unsigned NOT NULL,
   PRIMARY KEY (`id`)

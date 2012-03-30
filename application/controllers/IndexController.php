@@ -2,42 +2,39 @@
 
 class IndexController extends Zend_Controller_Action {
 
-    public function init() {
-        /* Initialize action controller here */
-
-    	//Zend_Cache_Backend_File
-
-    	$cache = Zend_Cache::factory(
-			Zend_Registry::get('config')->cache->frontEnd,
-			Zend_Registry::get('config')->cache->backEnd,
-			array('automatic_serialization' => true, 'lifetime' => Zend_Registry::get('config')->cache->lifetime)
-		);
-    	echo $cache->getBackend()->getTmpDir();
-
-    }
-
     public function indexAction() {
-    	// get Halbu achieves
-    	$char = new App_Model_Character();
-    	$char->load(array(
-    			'region' => 'eu',
-    			'realm' => 'Lightbringer',
-    			'name' => 'Halbu'
-    	));
+    	if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
-    	$fo = new App_Model_Achievement(6);
+    		// validate input
 
-    	var_dump($fo);
+    	}
 
-    	exit;
+		$armory = new App_Model_Armory();
+		$this->view->regions = $armory->region_list;
 
-    	$char->loadAchievements(0, 100);
-    	$this->view->char = $char;
+		$this->view->detected_region = null;
 
-    	// load achievement info for cross reference
-    	$achievement = new App_Model_Achievement();
-    	$achievement_data = $achievement->loadCrossReference($char->achievements_by_day);
+		if (isset($_SERVER['HTTP_ACCEPT_LANGUAGE'])) {
+			if (stripos($_SERVER['HTTP_ACCEPT_LANGUAGE'], 'en-us') !== false) {
+				$this->view->detected_region = $armory::REGION_US;
+			}
+			elseif (
+			stripos($_SERVER['HTTP_ACCEPT_LANGUAGE'], 'de-de') !== false ||
+			stripos($_SERVER['HTTP_ACCEPT_LANGUAGE'], 'de') !== false ||
+			stripos($_SERVER['HTTP_ACCEPT_LANGUAGE'], 'en-gb') !== false ||
+			stripos($_SERVER['HTTP_ACCEPT_LANGUAGE'], 'nl') !== false ||
+			stripos($_SERVER['HTTP_ACCEPT_LANGUAGE'], 'fr') !== false) {
+				$this->view->detected_region = $armory::REGION_EU;
+			}
+			elseif (stripos($_SERVER['HTTP_ACCEPT_LANGUAGE'], 'zh-tw') !== false) {
+				$this->view->detected_region = $armory::REGION_TW;
+			}
+			elseif (stripos($_SERVER['HTTP_ACCEPT_LANGUAGE'], 'zh-cn') !== false) {
+				$this->view->detected_region = $armory::REGION_CN;
+			}
 
-    	$this->view->json_data = $char->getJsonFormat($achievement_data);
+
+		}
+
 	}
 }

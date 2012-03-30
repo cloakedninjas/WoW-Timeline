@@ -1,0 +1,52 @@
+<?php
+if ($this->error !== null) {
+
+}
+else {
+?>
+
+<script type="text/javascript">
+Timeline.data = <?php echo $this->json_data; ?>;
+Timeline.total_achvs = <?php echo count($this->char->achievements); ?>;
+Timeline.total_points = <?php echo $this->char->achievement_points; ?>;
+Timeline.total_entries = <?php echo $this->char->total_entries; ?>;
+
+$(document).ready(function() {
+	Timeline.init();
+});
+</script>
+
+<div id="char_header">
+
+	<div class="profile">
+		<div class="thumb" style="background-image: url(http://eu.battle.net/static-render/eu/lightbringer/190/34244286-avatar.jpg)"></div>
+		<h1><span class="name">Halbu</span><span class="title">, the awesome</span></h1>
+		<h2>&lt; Untouchables &gt;</h2>
+		<h3>
+			<span class="level">85</span><span class="race">Night Elf</span><span class="class c6">Death Knight</span>
+		</h3>
+	</div>
+</div>
+
+<div id="timeline">
+	<div id="time_index">
+		<div id="exp_2" class="exp cata"></div>
+		<div id="exp_1" class="exp wotlk"></div>
+		<div id="exp_0" class="exp tbc"></div>
+	</div>
+	<div class="entries"></div>
+
+	<div class="loading">Loading...</div>
+</div>
+
+<div id="entry_template" class="entry">
+	<span class="date"></span>
+	<span class="l"></span>
+</div>
+
+<div id="notable_template" class="entry notable">
+	<span class="date"></span>
+</div>
+<?php
+}
+?>

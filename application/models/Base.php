@@ -27,11 +27,12 @@ abstract class App_Model_Base {
 	}
 
 	public function setDbTable() {
-		$cache = Zend_Cache::factory(
-			Zend_Registry::get('config')->cache->frontEnd,
-			Zend_Registry::get('config')->cache->backEnd,
-			array('automatic_serialization' => true, 'lifetime' => Zend_Registry::get('config')->cache->lifetime)
-		);
+		$manager = Zend_Controller_Front::getInstance()
+		->getParam('bootstrap')
+		->getPluginResource('cachemanager')
+		->getCacheManager();
+
+		$cache = $manager->getCache('database');
 
 		//$cache->clean(Zend_Cache::CLEANING_MODE_ALL);
 		$this->_dbTable = new App_Model_BaseMapper($this->_dbTableName, array('metadataCache' => $cache));

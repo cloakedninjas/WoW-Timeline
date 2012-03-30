@@ -121,6 +121,6 @@ class App_Model_Character extends App_Model_Base {
 
 		return json_encode($data);
 	}
-
-
 }
+
+class App_Model_Character_Exception extends Zend_Exception {}
