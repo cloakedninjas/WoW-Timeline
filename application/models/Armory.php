@@ -88,10 +88,9 @@ class App_Model_Armory {
 		SELECT name FROM realms WHERE region = ' . intval($region) . ' AND name LIKE ' . $db->quote($prefix) . '
 		ORDER BY name
 		LIMIT ' . intval($limit);
-
-		echo $query;
-		exit;
-	}
+		
+		return $db->fetchAll($query);
+		}
 
 	protected function getBaseUrl() {
 		return 'http://' . strtolower($this->params['region']) . '.battle.net';

@@ -14,7 +14,7 @@
 
 	<p>
 		<label>realm</label>
-		<input type="text" name="realm_name" id="realm_name" />
+		<input type="text" name="realm_name" id="realm_name" autocomplete="off" />
 		<span class="ajaxload" id="realm_name_loading" style="display: none;"></span>
 		<ul id="realm_suggest"></ul>
 	</p>
@@ -31,6 +31,6 @@
 
 <script type="text/javascript">
 $(document).ready(function() {
-	Funcs.bindRealmLookup();
+	Funcs.initRealmLookup();
 });
 </script>

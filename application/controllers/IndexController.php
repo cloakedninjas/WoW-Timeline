@@ -3,13 +3,24 @@
 class IndexController extends Zend_Controller_Action {
 
     public function indexAction() {
+    	$armory = new App_Model_Armory();
+    	
     	if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
-    		// validate input
+    		var_dump($_POST);
+    		
+    		if (isset($armory->region_list[$this->_getParam('region')])) {
+    			$region = $armory->region_list[$this->_getParam('region')];
+    			
+    			$realm = new App_Model_Realm();
+    			$realm->validateName($this->_getParam('realm_name'), $this->_getParam('region'));
+    		}
+    			
+    			
 
     	}
 
-		$armory = new App_Model_Armory();
+		
 		$this->view->regions = $armory->region_list;
 
 		$this->view->detected_region = null;

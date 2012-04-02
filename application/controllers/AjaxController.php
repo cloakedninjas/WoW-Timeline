@@ -35,7 +35,14 @@ class AjaxController extends Zend_Controller_Action {
 			$armory = new App_Model_Armory();
 			$results = $armory->lookupRealm($this->_getParam('region'), $this->_getParam('prefix'), 20);
 		}
-
-		echo json_encode($results);
+		
+		// format results as CSV
+		$return = '';
+		
+		foreach ($results as $r) {
+			$return .= $r->name . ',';
+		}
+		
+		echo substr($return, 0, -1);
 	}
 }

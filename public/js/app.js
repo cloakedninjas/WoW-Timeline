@@ -22,7 +22,7 @@ var Timeline = {
 			// time indexes
 			if (prev_mon != this.data[day_idx].mm) {
 				var h = (this.left_height < this.right_height) ? this.left_height : this.right_height;
-				var h = this.max_height;
+				h = this.max_height;
 				$("#time_index").append("<p style=\"top: " + h + "px;\">" + this.data[day_idx].m + "</p>");
 			}
 			prev_mon = this.data[day_idx].mm;
