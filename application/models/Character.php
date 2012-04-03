@@ -22,8 +22,8 @@ class App_Model_Character extends App_Model_Base {
 			throw new BadMethodCallException('Missing param: realm');
 		}
 
-		if (!isset($params['name'])) {
-			throw new BadMethodCallException('Missing param: name');
+		if (!isset($params['char'])) {
+			throw new BadMethodCallException('Missing param: char');
 		}
 
 		$this->_armory = new App_Model_Armory($params);
@@ -33,7 +33,32 @@ class App_Model_Character extends App_Model_Base {
 		$this->entry_start = $start;
 		$this->entry_count = $count;
 
-		$this->json = $this->_armory->getCharacterProfile(array('achievements'));
+		// is there a cache?
+		$exists = $this->findByParams($this->_armory->params);
+
+		if ($exists) {
+			// is cache fresh?
+			if ($this->cacheUpToDate()) {
+
+			}
+		}
+
+		$data = $this->_armory->getCharacterProfile(array('achievements'));
+
+		if ($data === false) {
+			throw new App_Model_Character_Exception($this->_armory->error);
+		}
+		elseif (isset($data->status) && $data->status == 'nok') {
+			throw new App_Model_Character_Exception($data->reason);
+		}
+
+		// all ok at this point
+
+		// cache the data
+
+		$this->createCache($data);
+
+		exit;
 
 		$this->firstAchievementDate = time();
 		$this->lastAchievementDate = 0;
@@ -76,6 +101,69 @@ class App_Model_Character extends App_Model_Base {
 		$this->achievements_by_day = array_slice($this->achievements_by_day, $start, $count, true);
 
 		return $this;
+	}
+
+	public function findByParams($params) {
+		$db = Zend_Registry::get('db');
+
+		$row = $db->fetchRow('
+		SELECT * FROM characters
+		INNER JOIN realms ON characters.realm = realms.id
+		WHERE realms.name = ' . $db->quote($params['realm']) . '
+		AND characters.name = ' . $db->quote($params['char']));
+
+		if ($row !== false) {
+			$this->bindFromRow($row);
+			return true;
+		}
+		return false;
+	}
+
+	public function cacheUpToDate() {
+		$config = Zend_Registry::get('config');
+
+		$age = time() - strtotime($this->lastCached);
+
+		echo "<p>age is $age</p>";
+
+		var_dump($age < $config->app->cache->lifetime);
+
+		exit;
+
+		return $age < $config->app->cache->lifetime;
+	}
+
+	public function createCache($data) {
+		$config = Zend_Registry::get('config');
+		$path = $config->app->cache->path . '/' . $this->_armory->params['region'] . '/' . strtolower($this->_armory->params['realm']);
+
+		if (!is_dir($path)) {
+			mkdir($path, intval($config->app->cache->mode, 8), true);
+		}
+
+		file_put_contents($path . '/' . strtolower($this->_armory->params['char']) . '.json', json_encode($data));
+
+		$this->name = $data->name;
+		$this->region = 1;
+		$this->realm = 1;
+
+		$this->lastModified = $data->lastModified;
+		$this->class = $data->class;
+		$this->race = $data->race;
+		$this->gender = $data->gender;
+		$this->level = $data->level;
+		$this->achievementPoints = $data->achievementPoints;
+		$this->thumbnail = $data->thumbnail;
+
+		$this->firstCached = $this->now();
+		$this->lastCached = $this->now();
+		$this->cacheCount = 1;
+
+		var_dump($this);
+
+		exit;
+
+		$this->save();
 	}
 
 	public function getJsonFormat(App_Model_Achievement $achievements) {

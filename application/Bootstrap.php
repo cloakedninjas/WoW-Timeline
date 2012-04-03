@@ -27,6 +27,6 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap {
     protected function _initRoutes() {
     	$ctrl  = Zend_Controller_Front::getInstance();
 		$router = $ctrl->getRouter();
-		$router->addRoute('chars', new Zend_Controller_Router_Route('char/:region/:realm/:name', array('controller' => 'char')));
+		$router->addRoute('chars', new Zend_Controller_Router_Route('char/:region/:realm/:char', array('controller' => 'char')));
 	}
 }

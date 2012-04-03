@@ -3,30 +3,39 @@
 class CharController extends Zend_Controller_Action {
 
     public function indexAction() {
-    	var_dump($this->_getAllParams());
 
-    	$char = new App_Model_Character();
+    	// validate params
+    	$armory = new App_Model_Armory();
+    	$valid = $armory->validateParams($this->_getParam('region'), $this->_getParam('realm'), $this->_getParam('char'));
 
-    	try {
-	    	$char->load(array(
-	    			'region' => $this->_getParam('region'),
-	    			'realm' => $this->_getParam('realm'),
-	    			'name' => $this->_getParam('name')
-	    	));
+    	if ($valid !== false) {
 
-	    	$char->loadAchievements(0, 100);
+	    	$char = new App_Model_Character();
 
-  	    	// load achievement info for cross reference
-	    	$achievement = new App_Model_Achievement();
-	    	$achievement_data = $achievement->loadCrossReference($char->achievements_by_day);
+	    	try {
+		    	$char->load(array(
+					'region' => $this->_getParam('region'),
+					'realm' => $this->_getParam('realm'),
+					'char' => $this->_getParam('char')
+		    	));
 
-	    	$this->view->json_data = $char->getJsonFormat($achievement_data);
+		    	$char->loadAchievements(0, 100);
 
+	  	    	// load achievement info for cross reference
+		    	$achievement = new App_Model_Achievement();
+		    	$achievement_data = $achievement->loadCrossReference($char->achievements_by_day);
+
+		    	$this->view->json_data = $char->getJsonFormat($achievement_data);
+
+	    	}
+	    	catch (Exception $e) {
+	    		$this->view->error = 'Could not load character : ' . $e->getMessage();
+	    	}
+
+    		$this->view->char = $char;
     	}
-    	catch (Exception $e) {
-    		$this->view->error = 'Could not load character : ' . $e->getMessage();
+    	else {
+    		$this->view->error = $armory->error;
     	}
-
-    	$this->view->char = $char;
 	}
 }

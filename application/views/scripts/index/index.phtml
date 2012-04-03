@@ -4,10 +4,10 @@
 		<label>region</label>
 		<select name="region" id="regionlist">
 		<?php
-		foreach ($this->regions as $rid=>$rname) {
+		foreach ($this->regions as $rname) {
 			$selected = ($this->detected_region == $rid) ? ' selected="selected"' : '';
 		?>
-		<option value="<?php echo $rid; ?>"<?php echo $selected; ?>><?php echo $rname; ?></option>
+		<option value="<?php echo $rname; ?>"<?php echo $selected; ?>><?php echo $rname; ?></option>
 		<?php } ?>
 		</select>
 	</p>

@@ -78,8 +78,6 @@ var Timeline = {
 	},
 
 	plotNotable: function(day_idx, ach_idx) {
-		console.log(this.data[day_idx].a[ach_idx]);
-
 		var html = $("#notable_template").clone();
 		html.removeAttr("id");
 		html.append("<h4>" + this.data[day_idx].a[ach_idx].n + "<span class=\"date\">" + this.data[day_idx].da + " " + this.data[day_idx].m + "</span></h4><p>" + this.data[day_idx].a[ach_idx].d + "</p>");

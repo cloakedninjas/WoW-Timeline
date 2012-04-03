@@ -1,6 +1,11 @@
 <?php
 if ($this->error !== null) {
-
+?>
+<div class="error_msg">
+	<h1>Uh oh, something has gone wrong :(</h1>
+	<p><?php echo $this->error; ?>
+</div>
+<?php
 }
 else {
 ?>

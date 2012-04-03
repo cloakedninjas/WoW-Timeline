@@ -26,9 +26,9 @@ class App_Model_Armory {
 	}
 
 	public function getCharacterProfile($extra_fields=array()) {
-		return json_decode(file_get_contents(APPLICATION_PATH . '/../cache/kinkeh.js'));
+		//return json_decode(file_get_contents(APPLICATION_PATH . '/../cache/kinkeh.js'));
 
-		$url = $this->getBaseUrl() . '/api/wow/character/' . strtolower($this->params['realm']) . '/' . strtolower($this->params['name']);
+		$url = $this->getBaseUrl() . '/api/wow/character/' . strtolower($this->params['realm']) . '/' . strtolower($this->params['char']);
 
 		if (!empty($extra_fields)) {
 			$url .= '?fields=';
@@ -88,9 +88,47 @@ class App_Model_Armory {
 		SELECT name FROM realms WHERE region = ' . intval($region) . ' AND name LIKE ' . $db->quote($prefix) . '
 		ORDER BY name
 		LIMIT ' . intval($limit);
-		
+
 		return $db->fetchAll($query);
+	}
+
+	public function validateParams($region, $realm_name, $char_name) {
+		$params = array('region'=>null, 'realm'=>null, 'char'=>null);
+
+		if (($index = array_search($region, $this->region_list)) !== false) {
+			$params['region'] = $region;
+
+			$realm = new App_Model_Realm();
+			$realm = $realm->validateName($realm_name, $index);
+
+			if ($realm !== false) {
+				$params['realm'] = $realm;
+
+				$params['char']= $this->validateCharacterName($char_name);
+
+				return $params;
+			}
+			else {
+				$this->error = 'Could not find realm : ' . $region . '-' . $realm_name;
+			}
 		}
+		else {
+			$this->error = 'We do not currently support the region : ' . $region;
+		}
+		return false;
+	}
+
+	public function validateCharacterName($name) {
+		if (preg_match("/[0-9]/", $name)) {
+			return false;
+		}
+
+		if (strlen($name) > 12) {
+			return false;
+		}
+
+		return ucfirst($name);
+	}
 
 	protected function getBaseUrl() {
 		return 'http://' . strtolower($this->params['region']) . '.battle.net';
