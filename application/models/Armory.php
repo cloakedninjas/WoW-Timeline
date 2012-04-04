@@ -93,17 +93,24 @@ class App_Model_Armory {
 	}
 
 	public function validateParams($region, $realm_name, $char_name) {
-		$params = array('region'=>null, 'realm'=>null, 'char'=>null);
+		$params = array(
+			'region'=>null,
+			'region_id'=>null,
+			'realm'=>null,
+			'realm_id'=>null,
+			'char'=>null,
+		);
 
 		if (($index = array_search($region, $this->region_list)) !== false) {
 			$params['region'] = $region;
+			$params['region_id'] = $index;
 
 			$realm = new App_Model_Realm();
 			$realm = $realm->validateName($realm_name, $index);
 
 			if ($realm !== false) {
-				$params['realm'] = $realm;
-
+				$params['realm'] = $realm->slug;
+				$params['realm_id'] = $realm->id;
 				$params['char']= $this->validateCharacterName($char_name);
 
 				return $params;

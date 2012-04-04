@@ -7,6 +7,8 @@ class App_Model_Character extends App_Model_Base {
 	protected $_armory;
 	protected $json;
 
+	public $params;
+
 	public $achievements = array();
 	public $achievements_by_day = array();
 
@@ -26,6 +28,7 @@ class App_Model_Character extends App_Model_Base {
 			throw new BadMethodCallException('Missing param: char');
 		}
 
+		$this->params = $params;
 		$this->_armory = new App_Model_Armory($params);
 	}
 
@@ -34,31 +37,28 @@ class App_Model_Character extends App_Model_Base {
 		$this->entry_count = $count;
 
 		// is there a cache?
-		$exists = $this->findByParams($this->_armory->params);
+		$exists = $this->findByParams($this->params);
 
 		if ($exists) {
 			// is cache fresh?
-			if ($this->cacheUpToDate()) {
+			if (!$this->cacheUpToDate()) {
+				// attempt to get data
 
+				try {
+					$data = $this->loadAchievementsFromArmory();
+					$this->updateCache($data);
+				}
+				catch (App_Model_Character_Exception $e) {
+					// Char no longer exists
+				}
 			}
 		}
-
-		$data = $this->_armory->getCharacterProfile(array('achievements'));
-
-		if ($data === false) {
-			throw new App_Model_Character_Exception($this->_armory->error);
-		}
-		elseif (isset($data->status) && $data->status == 'nok') {
-			throw new App_Model_Character_Exception($data->reason);
+		else {
+			$data = $this->loadAchievementsFromArmory();
+			$this->createCache($data);
 		}
 
-		// all ok at this point
-
-		// cache the data
-
-		$this->createCache($data);
-
-		exit;
+		// start parsing
 
 		$this->firstAchievementDate = time();
 		$this->lastAchievementDate = 0;
@@ -108,9 +108,8 @@ class App_Model_Character extends App_Model_Base {
 
 		$row = $db->fetchRow('
 		SELECT * FROM characters
-		INNER JOIN realms ON characters.realm = realms.id
-		WHERE realms.name = ' . $db->quote($params['realm']) . '
-		AND characters.name = ' . $db->quote($params['char']));
+		WHERE realm = ' . $db->quote($params['realm_id']) . '
+		AND name = ' . $db->quote($params['char']));
 
 		if ($row !== false) {
 			$this->bindFromRow($row);
@@ -135,17 +134,17 @@ class App_Model_Character extends App_Model_Base {
 
 	public function createCache($data) {
 		$config = Zend_Registry::get('config');
-		$path = $config->app->cache->path . '/' . $this->_armory->params['region'] . '/' . strtolower($this->_armory->params['realm']);
+		$path = $config->app->cache->path . '/' . $this->params['region'] . '/' . strtolower($this->params['realm']);
 
 		if (!is_dir($path)) {
 			mkdir($path, intval($config->app->cache->mode, 8), true);
 		}
 
-		file_put_contents($path . '/' . strtolower($this->_armory->params['char']) . '.json', json_encode($data));
+		file_put_contents($path . '/' . strtolower($this->params['char']) . '.json', json_encode($data));
 
 		$this->name = $data->name;
-		$this->region = 1;
-		$this->realm = 1;
+		$this->region = $this->params['region_id'];
+		$this->realm =  $this->params['realm_id'];
 
 		$this->lastModified = $data->lastModified;
 		$this->class = $data->class;
@@ -159,11 +158,11 @@ class App_Model_Character extends App_Model_Base {
 		$this->lastCached = $this->now();
 		$this->cacheCount = 1;
 
-		var_dump($this);
-
-		exit;
-
 		$this->save();
+	}
+
+	public function updateCache($data) {
+		exit;
 	}
 
 	public function getJsonFormat(App_Model_Achievement $achievements) {
@@ -208,6 +207,18 @@ class App_Model_Character extends App_Model_Base {
 		}
 
 		return json_encode($data);
+	}
+
+	protected function loadAchievementsFromArmory() {
+		$data = $this->_armory->getCharacterProfile(array('achievements'));
+
+		if ($data === false) {
+			throw new App_Model_Character_Exception($this->_armory->error);
+		}
+		elseif (isset($data->status) && $data->status == 'nok') {
+			throw new App_Model_Character_Exception($data->reason);
+		}
+		return $data;
 	}
 }
 

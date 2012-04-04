@@ -6,19 +6,14 @@ class CharController extends Zend_Controller_Action {
 
     	// validate params
     	$armory = new App_Model_Armory();
-    	$valid = $armory->validateParams($this->_getParam('region'), $this->_getParam('realm'), $this->_getParam('char'));
+    	$valid_params = $armory->validateParams($this->_getParam('region'), $this->_getParam('realm'), $this->_getParam('char'));
 
-    	if ($valid !== false) {
+    	if ($valid_params !== false) {
 
 	    	$char = new App_Model_Character();
 
 	    	try {
-		    	$char->load(array(
-					'region' => $this->_getParam('region'),
-					'realm' => $this->_getParam('realm'),
-					'char' => $this->_getParam('char')
-		    	));
-
+		    	$char->load($valid_params);
 		    	$char->loadAchievements(0, 100);
 
 	  	    	// load achievement info for cross reference
