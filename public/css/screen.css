@@ -26,16 +26,15 @@ a {
 	
 }
 
-#char_char_header {
+#char_header {
 	padding: 5px;
 	border: 1px #333 solid;
 	border-radius: 5px;
 	background: #040404;
 	color: #fff;
-	display: none;
 }
 
-#char_char_header .profile {
+#char_header .profile {
 	position: relative;
 	font-family: 'Gudea';
 }
