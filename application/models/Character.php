@@ -1,8 +1,5 @@
 <?php
 class App_Model_Character extends App_Model_Base {
-
-	//http:// <region> + .battle.net/static-render/ + <region> + / + <the string you got from API as thumbnail>
-
 	protected $_dbTableName = 'characters';
 	protected $_armory;
 	protected $json;
@@ -44,19 +41,23 @@ class App_Model_Character extends App_Model_Base {
 			if (!$this->cacheUpToDate()) {
 				// attempt to get data
 
-				try {
-					$data = $this->loadAchievementsFromArmory();
-					$this->updateCache($data);
-				}
-				catch (App_Model_Character_Exception $e) {
-					// Char no longer exists
+				$data = $this->loadDataFromArmory();
+				$this->updateCache($data);
+			}
+			else {
+				$data = $this->loadDataFromCache();
+
+				if ($data === false) {
+					throw new App_Model_Character_Exception('Failed to load cache');
 				}
 			}
 		}
 		else {
-			$data = $this->loadAchievementsFromArmory();
+			$data = $this->loadDataFromArmory();
 			$this->createCache($data);
 		}
+
+		$this->json = $data;
 
 		// start parsing
 
@@ -122,25 +123,24 @@ class App_Model_Character extends App_Model_Base {
 		$config = Zend_Registry::get('config');
 
 		$age = time() - strtotime($this->lastCached);
-
-		echo "<p>age is $age</p>";
-
-		var_dump($age < $config->app->cache->lifetime);
-
-		exit;
-
 		return $age < $config->app->cache->lifetime;
 	}
 
 	public function createCache($data) {
-		$config = Zend_Registry::get('config');
-		$path = $config->app->cache->path . '/' . $this->params['region'] . '/' . strtolower($this->params['realm']);
+		$this->firstCached = $this->now();
+		$this->cacheCount = 0;
+		$this->lastModified = null;
+		$this->updateCache($data);
+	}
 
-		if (!is_dir($path)) {
-			mkdir($path, intval($config->app->cache->mode, 8), true);
+	public function updateCache($data) {
+		if ($this->lastModified == $data->lastModified) {
+			return true;
 		}
 
-		file_put_contents($path . '/' . strtolower($this->params['char']) . '.json', json_encode($data));
+		$path = $this->getCachePath();
+
+		file_put_contents($path . '/' . $this->getCacheFilename(), json_encode($data));
 
 		$this->name = $data->name;
 		$this->region = $this->params['region_id'];
@@ -154,15 +154,21 @@ class App_Model_Character extends App_Model_Base {
 		$this->achievementPoints = $data->achievementPoints;
 		$this->thumbnail = $data->thumbnail;
 
-		$this->firstCached = $this->now();
+		foreach ($data->titles as $t) {
+			if (isset($t->selected) && $t->selected) {
+				$this->title = $t->name;
+				break;
+			}
+		}
+
+		if (isset($data->guild)) {
+			$this->guildName = $data->guild->name;
+		}
+
 		$this->lastCached = $this->now();
-		$this->cacheCount = 1;
+		$this->cacheCount++;
 
 		$this->save();
-	}
-
-	public function updateCache($data) {
-		exit;
 	}
 
 	public function getJsonFormat(App_Model_Achievement $achievements) {
@@ -209,8 +215,36 @@ class App_Model_Character extends App_Model_Base {
 		return json_encode($data);
 	}
 
-	protected function loadAchievementsFromArmory() {
-		$data = $this->_armory->getCharacterProfile(array('achievements'));
+	public function getThumbnail() {
+		return 'http://' . $this->params['region'] . '.battle.net/static-render/' . $this->params['region'] . '/' . $this->thumbnail;
+	}
+
+	public function getRacialName() {
+		return $this->_armory->race_list[$this->race];
+	}
+
+	public function getClassName() {
+		return $this->_armory->class_list[$this->class];
+	}
+
+	protected function getCachePath() {
+		$config = Zend_Registry::get('config');
+
+		$path = $config->app->cache->path . '/' . $this->params['region'] . '/' . strtolower($this->params['realm']);
+
+		if (!is_dir($path)) {
+			mkdir($path, intval($config->app->cache->mode, 8), true);
+		}
+
+		return $path;
+	}
+
+	protected function getCacheFilename() {
+		return strtolower($this->params['char']) . '.json';
+	}
+
+	protected function loadDataFromArmory() {
+		$data = $this->_armory->getCharacterProfile(array('achievements', 'titles', 'guild'));
 
 		if ($data === false) {
 			throw new App_Model_Character_Exception($this->_armory->error);
@@ -219,6 +253,15 @@ class App_Model_Character extends App_Model_Base {
 			throw new App_Model_Character_Exception($data->reason);
 		}
 		return $data;
+	}
+
+	protected function loadDataFromCache() {
+		$filename = $this->getCachePath() . '/' . $this->getCacheFilename();
+
+		if (is_file($filename)) {
+			return json_decode(file_get_contents($filename));
+		}
+		return false;
 	}
 }
 

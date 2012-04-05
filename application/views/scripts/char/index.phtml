@@ -24,11 +24,12 @@ $(document).ready(function() {
 <div id="char_header">
 
 	<div class="profile">
-		<div class="thumb" style="background-image: url(http://eu.battle.net/static-render/eu/lightbringer/190/34244286-avatar.jpg)"></div>
-		<h1><span class="name">Halbu</span><span class="title">, the awesome</span></h1>
-		<h2>&lt; Untouchables &gt;</h2>
+		<div class="thumb" style="background-image: url(<?php echo $this->char->getThumbnail(); ?>)"></div>
+
+		<h1><?php echo sprintf($this->char->title, $this->char->name); ?></h1>
+		<h2>&lt; <?php echo $this->char->guildName; ?> &gt;</h2>
 		<h3>
-			<span class="level">85</span><span class="race">Night Elf</span><span class="class c6">Death Knight</span>
+			<span class="level"><?php echo $this->char->level; ?></span><span class="race"><?php echo $this->char->getRacialName(); ?></span><span class="class c<?php echo $this->char->class; ?>"><?php echo $this->char->getClassName(); ?></span>
 		</h3>
 	</div>
 </div>

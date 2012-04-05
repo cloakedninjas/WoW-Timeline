@@ -7,6 +7,31 @@ class App_Model_Armory {
 	const REGION_TW = 4;
 	const REGION_CN = 5;
 
+	const RACE_HUMAN =		1;
+	const RACE_ORC =		2;
+	const RACE_DWARF =		3;
+	const RACE_NIGHT_ELF =	4;
+	const RACE_UNDEAD =		5;
+	const RACE_TAUREN =		6;
+	const RACE_GNOME =		7;
+	const RACE_TROLL =		8;
+	const RACE_GOBLIN =		9;
+	const RACE_BLOOD_ELF =	10;
+	const RACE_DRAENEI =	11;
+	const RACE_WORGEN =		22;
+	const RACE_PANDAREN =	24;
+
+	const CLASS_WARRIOR =	1;
+	const CLASS_PALADIN =	2;
+	const CLASS_HUNTER =	3;
+	const CLASS_ROGUE =		4;
+	const CLASS_PRIEST =	5;
+	const CLASS_DEATH_KNIGHT =	6;
+	const CLASS_SHAMAN =	7;
+	const CLASS_MAGE =		8;
+	const CLASS_WARLOCK =	9;
+	const CLASS_MONK =		10;
+	const CLASS_DRUID =		11;
 
 	public $region_list = array(
 		self::REGION_US => 'us',
@@ -15,6 +40,38 @@ class App_Model_Armory {
 		self::REGION_TW => 'tw',
 		self::REGION_CN => 'cn',
 	);
+
+	public $race_list = array (
+		self::RACE_HUMAN => 'Human',
+		self::RACE_ORC => 'Orc',
+		self::RACE_DWARF => 'Dwarf',
+		self::RACE_NIGHT_ELF => 'Night Elf',
+		self::RACE_UNDEAD => 'Undead',
+		self::RACE_TAUREN => 'Tauren',
+		self::RACE_GNOME => 'Gnome',
+		self::RACE_TROLL => 'Troll',
+		self::RACE_GOBLIN => 'Goblin',
+		self::RACE_BLOOD_ELF => 'Blood Eld',
+		self::RACE_DRAENEI => 'Draenei',
+		self::RACE_WORGEN => 'Worgen',
+		self::RACE_PANDAREN => 'Pandaren'
+	);
+
+	public $class_list = array (
+		self::CLASS_WARRIOR => 'Warrior',
+		self::CLASS_PALADIN => 'Paladin',
+		self::CLASS_HUNTER => 'Hunter',
+		self::CLASS_ROGUE => 'Rogue',
+		self::CLASS_PRIEST => 'Priest',
+		self::CLASS_DEATH_KNIGHT => 'Death Knight',
+		self::CLASS_SHAMAN => 'Shaman',
+		self::CLASS_MAGE => 'Mage',
+		self::CLASS_WARLOCK => 'Warlock',
+		self::CLASS_MONK => 'Monk',
+		self::CLASS_DRUID => 'Druid'
+	);
+
+
 
 	public $error = null;
 	public $params;

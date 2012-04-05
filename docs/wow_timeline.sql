@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50519
 File Encoding         : 65001
 
-Date: 2012-03-30 17:29:41
+Date: 2012-04-05 15:37:08
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -1924,18 +1924,22 @@ CREATE TABLE `characters` (
   `race` smallint(5) unsigned NOT NULL,
   `gender` smallint(5) unsigned NOT NULL,
   `level` smallint(5) unsigned NOT NULL,
+  `title` varchar(128) NOT NULL,
   `achievementPoints` int(10) unsigned NOT NULL,
   `thumbnail` varchar(64) NOT NULL,
+  `guildName` varchar(128) NOT NULL,
   `firstCached` datetime NOT NULL,
   `lastCached` datetime NOT NULL,
   `cacheCount` int(10) unsigned NOT NULL,
   `viewCount` bigint(20) unsigned NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of characters
 -- ----------------------------
+INSERT INTO `characters` VALUES ('1', 'Halbu', '2', '404', '1324993901000', '6', '4', '0', '85', '%s the Undying', '11165', 'lightbringer/190/34244286-avatar.jpg', 'Royal Legion', '2012-04-05 10:46:02', '2012-04-05 10:46:02', '1', '0');
+INSERT INTO `characters` VALUES ('2', 'Meshif', '2', '404', '1321136745000', '11', '4', '0', '85', '%s, Champion of the Frozen Wastes', '3010', 'lightbringer/110/24191342-avatar.jpg', 'Royal Legion', '2012-04-05 14:05:09', '2012-04-05 14:05:09', '1', '0');
 
 -- ----------------------------
 -- Table structure for `realms`
