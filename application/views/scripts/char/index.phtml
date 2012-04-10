@@ -1,7 +1,7 @@
 <?php
 if ($this->error !== null) {
 ?>
-<div class="error_msg">
+<div class="panel error_msg">
 	<h1>Uh oh, something has gone wrong :(</h1>
 	<p><?php echo $this->error; ?>
 </div>
@@ -21,7 +21,7 @@ $(document).ready(function() {
 });
 </script>
 
-<div id="char_header">
+<div id="char_header" class="panel">
 
 	<div class="profile">
 		<div class="thumb" style="background-image: url(<?php echo $this->char->getThumbnail(); ?>)"></div>

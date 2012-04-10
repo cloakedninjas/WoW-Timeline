@@ -4,6 +4,7 @@ html, body, h1, h2, h3, h4, p, ul, li {
 }
 
 body {
+	background: #0e1318 url(/images/body_bg.png) left top repeat-x;
 	font-family: verdana, sans-serif;
 	font-size: 11px;
 }
@@ -14,7 +15,71 @@ a {
 
 #frame {
 	width: 1000px;
-	margin: 20px auto;
+	margin: 0 auto;
+}
+
+#header {
+	height: 200px;
+	padding: 50px 0 0 100px;
+	
+}
+
+#logo {
+	position: absolute;
+	width: 470px;
+	height: 80px;
+	background: url(/images/logo.png) left top no-repeat;
+}
+
+.panel {
+	padding: 10px;
+	border: 1px #102731 solid;
+	border-radius: 10px;
+	background: #fff;
+}
+
+#char_lookup {
+	height: 80px;
+}
+
+#char_lookup h1 {
+	margin: 0 0 20px;
+}
+
+#char_lookup label {
+	float: left;
+	height: 20px;
+	padding: 0 10px 0 20px;
+	line-height: 20px;
+	background: #0e1318;
+	color: #fff;
+}
+
+#char_lookup select, #char_lookup input {
+	float: left;
+	height: 20px;
+	line-height: 20px;
+	padding: 0;
+	border: 1px #0e1318 dotted;
+}
+
+#regionlist {
+	margin: 0 10px 0 0;
+}
+
+#realm_name {
+	margin: 0 10px 0 0;
+}
+
+#char_name {
+	margin: 0 10px 0 0;
+}
+
+input.submit {
+	border: 0;
+	background: #0e1318;
+	color: #fff;
+	font-family: verdana;
 }
 
 #realm_suggest {
@@ -27,11 +92,6 @@ a {
 }
 
 #char_header {
-	padding: 5px;
-	border: 1px #333 solid;
-	border-radius: 5px;
-	background: #040404;
-	color: #fff;
 }
 
 #char_header .profile {

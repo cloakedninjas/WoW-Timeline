@@ -1,7 +1,8 @@
-<form action="/index" method="post">
-
-	<p>
-		<label>region</label>
+<div id="char_lookup" class="panel">
+	<h1>Character lookup</h1>
+	<form action="/index" method="post">
+	
+		<label class="region">region</label>
 		<select name="region" id="regionlist">
 		<?php
 		foreach ($this->regions as $rname) {
@@ -10,24 +11,19 @@
 		<option value="<?php echo $rname; ?>"<?php echo $selected; ?>><?php echo $rname; ?></option>
 		<?php } ?>
 		</select>
-	</p>
 
-	<p>
-		<label>realm</label>
+		<label class="realm">realm</label>
 		<input type="text" name="realm_name" id="realm_name" autocomplete="off" />
 		<span class="ajaxload" id="realm_name_loading" style="display: none;"></span>
 		<ul id="realm_suggest"></ul>
-	</p>
 
-	<p>
-		<label>character name</label>
+		<label class="name">character name</label>
 		<input type="text" name="char_name" id="char_name" />
-	</p>
 
-	<p>
-		<input type="submit" value="go" />
-	</p>
-</form>
+	
+		<input class="submit" type="submit" value="go" />
+	</form>
+</div>
 
 <script type="text/javascript">
 $(document).ready(function() {
