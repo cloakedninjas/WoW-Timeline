@@ -12,21 +12,41 @@ class App_Model_Character extends App_Model_Base {
 	public $entry_start = 0;
 	public $entry_count = 0;
 
-	public function load(array $params) {
-		if (!isset($params['region'])) {
-			throw new BadMethodCallException('Missing param: region');
+	public function load($params) {
+		if (is_array($params)) {
+			if (!isset($params['region'])) {
+				throw new BadMethodCallException('Missing param: region');
+			}
+
+			if (!isset($params['realm'])) {
+				throw new BadMethodCallException('Missing param: realm');
+			}
+
+			if (!isset($params['char'])) {
+				throw new BadMethodCallException('Missing param: char');
+			}
+
+			$this->params = $params;
+		}
+		elseif(is_numeric($params)) {
+			$this->find($params);
+
+			if ($this->id != 0) {
+				// char id does exist - define params
+				$armory = new App_Model_Armory();
+				$realm = new App_Model_Realm($this->realm);
+
+				$this->params = array(
+					'region'=>$armory->region_list[$this->region],
+					'region_id'=>$this->region,
+					'realm'=>$realm->slug,
+					'realm_id'=>$this->realm,
+					'char'=>$this->name,
+				);
+			}
 		}
 
-		if (!isset($params['realm'])) {
-			throw new BadMethodCallException('Missing param: realm');
-		}
-
-		if (!isset($params['char'])) {
-			throw new BadMethodCallException('Missing param: char');
-		}
-
-		$this->params = $params;
-		$this->_armory = new App_Model_Armory($params);
+		$this->_armory = new App_Model_Armory($this->params);
 	}
 
 	public function loadAchievements($start, $count) {

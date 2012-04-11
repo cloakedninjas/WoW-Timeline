@@ -48,11 +48,12 @@ a {
 
 #char_lookup label {
 	float: left;
-	height: 20px;
-	padding: 0 10px 0 20px;
-	line-height: 20px;
+	height: 14px;
+	padding: 3px 10px 3px 20px;
 	background: #0e1318;
 	color: #fff;
+	border-top-left-radius: 5px;
+	border-bottom-left-radius: 5px;
 }
 
 #char_lookup select, #char_lookup input {
@@ -60,26 +61,37 @@ a {
 	height: 20px;
 	line-height: 20px;
 	padding: 0;
-	border: 1px #0e1318 dotted;
+	border: 1px #0e1318 solid;
 }
 
 #regionlist {
 	margin: 0 10px 0 0;
 }
 
-#realm_name {
+#char_lookup input[type=text] {
+	height: 18px;
 	margin: 0 10px 0 0;
+	padding: 0 2px;
+	font-family: verdana;
 }
 
-#char_name {
-	margin: 0 10px 0 0;
+#char_lookup #realm_name {
+	width: 200px;
 }
 
-input.submit {
+#char_lookup input.submit {
+	box-sizing: content-box;
+	-moz-box-sizing: content-box;
+	-ms-box-sizing: content-box;
+	height: 14px;
+	padding: 1px 10px 5px 20px;
 	border: 0;
+	border-top-left-radius: 5px;
+	border-bottom-left-radius: 5px;
 	background: #0e1318;
 	color: #fff;
 	font-family: verdana;
+	font-size: 11px;
 }
 
 #realm_suggest {

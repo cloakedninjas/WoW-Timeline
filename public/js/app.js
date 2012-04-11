@@ -1,4 +1,5 @@
 var Timeline = {
+	char_id: 0,
 	data: [],
 	left_height: 5,
 	right_height: 20,
@@ -159,6 +160,7 @@ var Timeline = {
 		$.ajax({
 			url: "/ajax/load-entries",
 			data: {
+				char_id: this.char_id,
 				start: this.load_count
 			},
 			dataType: "json",
@@ -171,6 +173,9 @@ var Timeline = {
 				if (Timeline.load_count >= Timeline.total_entries) {
 					Timeline.has_more_achvs = false;
 				}
+			},
+			error: function() {
+				$("#timeline .loading").html("Error :(");
 			}
 		});
 	},

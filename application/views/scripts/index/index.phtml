@@ -1,11 +1,11 @@
 <div id="char_lookup" class="panel">
-	<h1>Character lookup</h1>
+	<h1>Lookup</h1>
 	<form action="/index" method="post">
-	
+
 		<label class="region">region</label>
 		<select name="region" id="regionlist">
 		<?php
-		foreach ($this->regions as $rname) {
+		foreach ($this->regions as $rid=>$rname) {
 			$selected = ($this->detected_region == $rid) ? ' selected="selected"' : '';
 		?>
 		<option value="<?php echo $rname; ?>"<?php echo $selected; ?>><?php echo $rname; ?></option>
@@ -17,11 +17,11 @@
 		<span class="ajaxload" id="realm_name_loading" style="display: none;"></span>
 		<ul id="realm_suggest"></ul>
 
-		<label class="name">character name</label>
+		<label class="name">character</label>
 		<input type="text" name="char_name" id="char_name" />
 
-	
-		<input class="submit" type="submit" value="go" />
+
+		<input class="submit" type="submit" value="search" />
 	</form>
 </div>
 

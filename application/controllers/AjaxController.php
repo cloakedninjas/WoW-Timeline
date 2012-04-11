@@ -8,12 +8,9 @@ class AjaxController extends Zend_Controller_Action {
     }
 
     public function loadEntriesAction() {
+
     	$char = new App_Model_Character();
-    	$char->load(array(
-    			'region' => 'eu',
-    			'realm' => 'Lightbringer',
-    			'name' => 'Halbu'
-    	));
+    	$char->load($this->_getParam('char_id'));
 
     	$char->loadAchievements($this->_getParam('start'), 100);
 
@@ -35,14 +32,14 @@ class AjaxController extends Zend_Controller_Action {
 			$armory = new App_Model_Armory();
 			$results = $armory->lookupRealm($this->_getParam('region'), $this->_getParam('prefix'), 20);
 		}
-		
+
 		// format results as CSV
 		$return = '';
-		
+
 		foreach ($results as $r) {
 			$return .= $r->name . ',';
 		}
-		
+
 		echo substr($return, 0, -1);
 	}
 }
