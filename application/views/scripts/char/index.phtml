@@ -27,7 +27,7 @@ $(document).ready(function() {
 	<div class="profile">
 		<div class="thumb" style="background-image: url(<?php echo $this->char->getThumbnail(); ?>)"></div>
 
-		<h1><?php echo sprintf($this->char->title, $this->char->name); ?></h1>
+		<h1><?php echo $this->char->getDisplayName(); ?></h1>
 		<h2>&lt; <?php echo $this->char->guildName; ?> &gt;</h2>
 		<h3>
 			<span class="level"><?php echo $this->char->level; ?></span><span class="race"><?php echo $this->char->getRacialName(); ?></span><span class="class c<?php echo $this->char->class; ?>"><?php echo $this->char->getClassName(); ?></span>

@@ -235,6 +235,13 @@ class App_Model_Character extends App_Model_Base {
 		return json_encode($data);
 	}
 
+	public function getDisplayName() {
+		if ($this->title) {
+			return sprintf($this->title, $this->name);
+		}
+		return $this->name;
+	}
+
 	public function getThumbnail() {
 		return 'http://' . $this->params['region'] . '.battle.net/static-render/' . $this->params['region'] . '/' . $this->thumbnail;
 	}
