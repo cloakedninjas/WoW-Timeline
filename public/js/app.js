@@ -14,19 +14,24 @@ var Timeline = {
 		last_rendered: null,
 		px: 0
 	},
+	time_indexes: {
+		prev_mon: null,
+		prev_year: null
+	},
 
 	plot: function() {
-		var prev_mon = null;
-
 		for (var day_idx = this.load_count; day_idx < this.data.length; day_idx++) {
 
 			// time indexes
-			if (prev_mon != this.data[day_idx].mm) {
-				var h = (this.left_height < this.right_height) ? this.left_height : this.right_height;
-				h = this.max_height;
-				$("#time_index").append("<p style=\"top: " + h + "px;\">" + this.data[day_idx].m + "</p>");
+			if (this.time_indexes.prev_year != this.data[day_idx].y) {
+				$("#time_index").append("<p style=\"top: " + this.max_height + "px;\">" + this.data[day_idx].y + "</p>");
 			}
-			prev_mon = this.data[day_idx].mm;
+			else if (this.time_indexes.prev_mon != this.data[day_idx].mm) {
+				$("#time_index").append("<p style=\"top: " + this.max_height + "px;\">" + this.data[day_idx].m + "</p>");
+			}
+
+			this.time_indexes.prev_mon = this.data[day_idx].mm;
+			this.time_indexes.prev_year = this.data[day_idx].y;
 
 			// exp gradients
 			if (typeof this.data[day_idx].exp != 'undefined') {

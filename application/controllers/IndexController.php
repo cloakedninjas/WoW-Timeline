@@ -40,9 +40,6 @@ class IndexController extends Zend_Controller_Action {
 				// leave this to the end - highly likely a foreign machine has en_US
 				$this->view->detected_region = $armory::REGION_US;
 			}
-
-
 		}
-
 	}
 }

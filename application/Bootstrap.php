@@ -29,4 +29,11 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap {
 		$router = $ctrl->getRouter();
 		$router->addRoute('chars', new Zend_Controller_Router_Route('char/:region/:realm/:char', array('controller' => 'char')));
 	}
+
+	protected function _initViews() {
+		$this->bootstrap('View');
+		$view = $this->getResource('View');
+
+		$view->headTitle('WoW Timeline')->setSeparator(' :: ');
+	}
 }

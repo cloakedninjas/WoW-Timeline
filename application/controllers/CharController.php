@@ -29,6 +29,7 @@ class CharController extends Zend_Controller_Action {
 	    	}
 
     		$this->view->char = $char;
+    		$this->view->headTitle()->append($char->name);
     	}
     	else {
     		$this->view->error = $armory->error;

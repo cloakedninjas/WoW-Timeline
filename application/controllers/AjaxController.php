@@ -12,7 +12,9 @@ class AjaxController extends Zend_Controller_Action {
     	$char = new App_Model_Character();
     	$char->load($this->_getParam('char_id'));
 
-    	$char->loadAchievements($this->_getParam('start'), 100);
+    	$config = Zend_Registry::get('config');
+
+    	$char->loadAchievements($this->_getParam('start'), $config->app->defaultLoadCount);
 
     	// load achievement info for cross reference
     	$achievement = new App_Model_Achievement();

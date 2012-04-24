@@ -313,7 +313,7 @@ a {
 }
 
 #time_index .mop {
-	background: #CA3B16;
+	background-image: url(/images/time_bg_mop.png);
 }
 
 #time_index .cata {
@@ -321,11 +321,11 @@ a {
 }
 
 #time_index .wotlk {
-	background: #263669;
+	background-image: url(/images/time_bg_wotlk.png);
 }
 
 #time_index .tbc {
-	background: #3F5621;
+	background-image: url(/images/time_bg_tbc.png);
 }
 
 #time_index p {
@@ -333,6 +333,7 @@ a {
 	width: 60px;
 	text-align: center;
 	font-weight: bold;
+	text-shadow: #ccc 0 0 2px;
 }
 
 #entry_template, #notable_template {
