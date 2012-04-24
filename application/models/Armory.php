@@ -138,11 +138,17 @@ class App_Model_Armory {
 	public function lookupRealm($region, $prefix, $limit) {
 		$db = Zend_Registry::get('db');
 
+		$region = array_search($region, $this->region_list);
+
+		if ($region === false) {
+			return;
+		}
+
 		$prefix = str_replace('%', '', $prefix) . '%';
 		$prefix = ucfirst($prefix);
 
 		$query = '
-		SELECT name FROM realms WHERE region = ' . intval($region) . ' AND name LIKE ' . $db->quote($prefix) . '
+		SELECT name FROM realms WHERE region = ' . $region . ' AND name LIKE ' . $db->quote($prefix) . '
 		ORDER BY name
 		LIMIT ' . intval($limit);
 

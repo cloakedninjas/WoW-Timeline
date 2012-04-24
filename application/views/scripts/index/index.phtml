@@ -1,32 +1,39 @@
 <div id="char_lookup" class="panel">
-	<h1>Lookup</h1>
-	<form action="/index" method="post">
+	<form action="/index" method="post" autocomplete="off">
 
-		<label class="region">region</label>
-		<select name="region" id="regionlist">
-		<?php
-		foreach ($this->regions as $rid=>$rname) {
-			$selected = ($this->detected_region == $rid) ? ' selected="selected"' : '';
-		?>
-		<option value="<?php echo $rname; ?>"<?php echo $selected; ?>><?php echo $rname; ?></option>
-		<?php } ?>
-		</select>
+		<div class="region">
+			<label></label>
+			<select id="regionlist" class="prefill">
+				<option value="">region</option>
+			<?php
+			foreach ($this->regions as $rid=>$rname) {
+				$selected = ($this->detected_region == $rid) ? ' selected="selected"' : '';
+			?>
+			<option value="<?php echo $rname; ?>"<?php echo $selected; ?>><?php echo $rname; ?></option>
+			<?php } ?>
+			</select>
+		</div>
 
-		<label class="realm">realm</label>
-		<input type="text" name="realm_name" id="realm_name" autocomplete="off" />
-		<span class="ajaxload" id="realm_name_loading" style="display: none;"></span>
-		<ul id="realm_suggest"></ul>
+		<div class="realm">
+			<label></label>
+			<input type="text" class="prefill" name="realm_name" id="realm_name" value="realm" />
+			<span id="realm_name_status"></span>
+			<ul id="realm_suggest">
 
-		<label class="name">character</label>
-		<input type="text" name="char_name" id="char_name" />
+			</ul>
+		</div>
 
+		<div class="character">
+			<label></label>
+			<input type="text" class="prefill" name="char_name" id="char_name" value="character" />
+		</div>
 
-		<input class="submit" type="submit" value="Go" />
+		<input class="submit" type="submit" value="" />
 	</form>
 </div>
 
 <script type="text/javascript">
 $(document).ready(function() {
-	Funcs.initRealmLookup();
+	Funcs.initCharLookup();
 });
 </script>

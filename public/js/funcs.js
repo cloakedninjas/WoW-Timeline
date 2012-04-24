@@ -37,40 +37,96 @@ var Funcs = {
 		}
 	},
 
-	initRealmLookup: function() {
+	initCharLookup: function() {
+		$("#regionlist").focus(function() {
+			$(this).removeClass("prefill");
+		});
+
+		$("#regionlist").change(function() {
+			if ($(this)[0].selectedIndex == 0) {
+				$(this).addClass("prefill");
+			}
+		});
+
+		$("#regionlist").blur(function() {
+			if ($(this)[0].selectedIndex == 0) {
+				$(this).addClass("prefill");
+			}
+		});
+
+		$("#realm_name").focus(function() {
+			if ($(this).val() == "realm") {
+				$(this).val("");
+			}
+		});
+
+		$("#realm_name").blur(function() {
+			if ($(this).val() == "") {
+				$(this).val("realm");
+				$(this).addClass("prefill");
+			}
+		});
+
 		$("#realm_name").keyup(function() {
-			if ($("#realm_name").val().length >= 3 && $("#realm_name").val() != Funcs.realm_lookup.prefix_last) {
-				Funcs.lookupRealm($("#realm_name").val());
-				Funcs.realm_lookup.prefix_last = $("#realm_name").val();
+			if ($(this).val().length > 0) {
+				$(this).removeClass("prefill");
+			}
+
+			if ($(this).val().length >= 3 && $(this).val() != Funcs.realm_lookup.prefix_last) {
+
+				var prefix = $(this).val().toLowerCase();
+				var ok = true;
+
+				Funcs.realm_lookup.prefix_last = prefix;
+
+				for (var i = 0; i < Funcs.realm_lookup.prefix_ignore.length; i++) {
+					if (prefix.indexOf(Funcs.realm_lookup.prefix_ignore[i]) != -1) {
+						ok = false;
+						break;
+					}
+				}
+
+				if (ok) {
+					Funcs.lookupRealm($(this).val());
+					Funcs.realm_lookup.prefix_last = $(this).val();
+				}
+				else {
+					$("#realm_name_status").addClass("fail");
+				}
 			}
 			else {
 				$("#realm_suggest").hide().empty();
-				$("#realm_name_loading").hide();
+				$("#realm_name_status").removeClass("loading fail");
 			}
 		});
-		
+
+		$("#char_name").focus(function() {
+			if ($(this).val() == "character") {
+				$(this).val("");
+			}
+		});
+
+		$("#char_name").blur(function() {
+			if ($(this).val() == "") {
+				$(this).val("character");
+				$(this).addClass("prefill");
+			}
+		});
+
 		$("#char_name").keyup(function() {
 			if ($(this).val().length > 0) {
-				var name = $(this).val()[0].toUpperCase() + $(this).val().substr(1);
-				$(this).val(name);
+				$(this).removeClass("prefill");
 			}
 		});
 	},
 
 	lookupRealm: function(prefix) {
 		var cache_index = 'realm_lookup_' + prefix;
-		
-		for (var i = 0; i < this.realm_lookup.prefix_ignore.length; i++) {
-			if (prefix.indexOf(this.realm_lookup.prefix_ignore[i]) != -1) {
-				return;
-			}
-		}
-		
-		$("#realm_name_loading").show();
-		this.realm_lookup.prefix_last = prefix;
-		
+
+		$("#realm_name_status").addClass("loading");
+
 		var cache_result = this.getCache(cache_index);
-		
+
 		if (cache_result == null) {
 			$.ajax({
 				url: "/ajax/load-realms",
@@ -79,14 +135,20 @@ var Funcs = {
 					prefix: prefix
 				},
 				success: function(data) {
-					if (data == null) {
+					if (data == null || data == "") {
 						Funcs.realm_lookup.prefix_ignore.push(prefix);
-						$("#realm_name_loading").hide();
+						$("#realm_name_status").removeClass("loading").addClass("fail");
 						$("#realm_suggest").hide().empty();
 						return;
 					}
-					Funcs.setCache(cache_index, data);
-					Funcs.updateRealmList(data);
+					else {
+						Funcs.setCache(cache_index, data);
+						Funcs.updateRealmList(data);
+					}
+				},
+				error: function() {
+					$("#realm_name_status").removeClass("loading").addClass("fail");
+					$("#realm_suggest").hide().empty();
 				}
 			});
 		}
@@ -101,16 +163,14 @@ var Funcs = {
 
 		for(var i = 0; i < rlist.length; i++) {
 			$("#realm_suggest").append('<li onclick="Funcs.pickRealm(\'' + rlist[i].replace("'", "\\'") + '\')">' + rlist[i] + '</li>');
-			
+
 		}
-		$("#realm_name_loading").hide();
 	},
-	
+
 	pickRealm: function(name) {
 		$("#realm_name").val(name);
-		$("#realm_suggest").hide();
+		$("#realm_suggest").hide().attr("class", "");
 		this.realm_lookup.prefix_last = name;
-		
 	},
 
 	getCache: function(name) {
