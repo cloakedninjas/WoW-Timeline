@@ -36,8 +36,7 @@ a {
 	display: block;
 	width: 470px;
 	height: 80px;
-	/*background: url(/images/logo.png) left top no-repeat;*/
-	background: grey;
+	background: url(/images/logo.png) left top no-repeat;
 }
 
 .panel {

@@ -16,18 +16,28 @@ var Timeline = {
 	},
 	time_indexes: {
 		prev_mon: null,
-		prev_year: null
+		prev_year: null,
+		prev_px: 0
 	},
 
 	plot: function() {
 		for (var day_idx = this.load_count; day_idx < this.data.length; day_idx++) {
-
+			
+			var h = ((this.left_height < this.right_height) ? this.left_height : this.right_height) + 5;
+			
+			if (h - this.time_indexes.prev_px <= 10) {
+				console.log(12333);
+				
+			}
+			
+			this.time_indexes.prev_px = h;
+			
 			// time indexes
 			if (this.time_indexes.prev_year != this.data[day_idx].y) {
-				$("#time_index").append("<p style=\"top: " + this.max_height + "px;\">" + this.data[day_idx].y + "</p>");
+				$("#time_index").append("<p style=\"top: " + h + "px;\">" + this.data[day_idx].y + "</p>");
 			}
 			else if (this.time_indexes.prev_mon != this.data[day_idx].mm) {
-				$("#time_index").append("<p style=\"top: " + this.max_height + "px;\">" + this.data[day_idx].m + "</p>");
+				$("#time_index").append("<p style=\"top: " + h + "px;\">" + this.data[day_idx].m + "</p>");
 			}
 
 			this.time_indexes.prev_mon = this.data[day_idx].mm;
