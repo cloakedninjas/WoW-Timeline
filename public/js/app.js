@@ -55,7 +55,7 @@ var Timeline = {
 					continue;
 				}
 				else {
-					entry = "<p title=\"" + this.data[day_idx].a[ach_idx].d + "\"";
+					entry += "<p title=\"" + this.data[day_idx].a[ach_idx].d + "\"";
 					entry += ">" + this.data[day_idx].a[ach_idx].n + "</p>";
 				}
 			}

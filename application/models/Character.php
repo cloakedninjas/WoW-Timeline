@@ -242,6 +242,15 @@ class App_Model_Character extends App_Model_Base {
 		return $this->name;
 	}
 
+	public function getDisplayGuildName() {
+		if ($this->guildName) {
+			return '&lt; ' . $this->guildName . '&gt;';
+		}
+		return '';
+	}
+
+
+
 	public function getThumbnail() {
 		return 'http://' . $this->params['region'] . '.battle.net/static-render/' . $this->params['region'] . '/' . $this->thumbnail;
 	}

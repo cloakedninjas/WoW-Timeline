@@ -11,10 +11,11 @@ class CharController extends Zend_Controller_Action {
     	if ($valid_params !== false) {
 
 	    	$char = new App_Model_Character();
+	    	$config = Zend_Registry::get('config');
 
 	    	try {
 		    	$char->load($valid_params);
-		    	$char->loadAchievements(0, 100);
+		    	$char->loadAchievements(0, $config->app->defaultLoadCount);
 
 	  	    	// load achievement info for cross reference
 		    	$achievement = new App_Model_Achievement();

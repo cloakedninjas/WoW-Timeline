@@ -1,9 +1,9 @@
-<div id="char_lookup" class="panel">
+<div id="char_lookup" class="dark_panel">
 	<form action="/index" method="post" autocomplete="off">
 
 		<div class="region">
 			<label></label>
-			<select id="regionlist" class="prefill">
+			<select id="regionlist" class="prefill" name="region">
 				<option value="">region</option>
 			<?php
 			foreach ($this->regions as $rid=>$rname) {
@@ -18,9 +18,7 @@
 			<label></label>
 			<input type="text" class="prefill" name="realm_name" id="realm_name" value="realm" />
 			<span id="realm_name_status"></span>
-			<ul id="realm_suggest">
-
-			</ul>
+			<ul id="realm_suggest"></ul>
 		</div>
 
 		<div class="character">
@@ -31,6 +29,7 @@
 		<input class="submit" type="submit" value="" />
 	</form>
 </div>
+<p id="lookup_error"></p>
 
 <script type="text/javascript">
 $(document).ready(function() {

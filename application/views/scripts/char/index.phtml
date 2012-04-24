@@ -22,16 +22,21 @@ $(document).ready(function() {
 });
 </script>
 
-<div id="char_header" class="panel">
+<div id="char_header" class="dark_panel">
 
 	<div class="profile">
 		<div class="thumb" style="background-image: url(<?php echo $this->char->getThumbnail(); ?>)"></div>
 
 		<h1><?php echo $this->char->getDisplayName(); ?></h1>
-		<h2>&lt; <?php echo $this->char->guildName; ?> &gt;</h2>
+		<h2><?php echo $this->char->getDisplayGuildName(); ?></h2>
 		<h3>
 			<span class="level"><?php echo $this->char->level; ?></span><span class="race"><?php echo $this->char->getRacialName(); ?></span><span class="class c<?php echo $this->char->class; ?>"><?php echo $this->char->getClassName(); ?></span>
 		</h3>
+
+		<div class="a_points">
+			<span class="points"><?php echo $this->char->achievementPoints; ?></span>
+			<span class="label">achievement points</span>
+		</div>
 	</div>
 </div>
 

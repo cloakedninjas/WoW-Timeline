@@ -22,10 +22,7 @@ class IndexController extends Zend_Controller_Action {
 		$this->view->detected_region = null;
 
 		if (isset($_SERVER['HTTP_ACCEPT_LANGUAGE'])) {
-			if (stripos($_SERVER['HTTP_ACCEPT_LANGUAGE'], 'en-us') !== false) {
-				$this->view->detected_region = $armory::REGION_US;
-			}
-			elseif (
+			if (
 			stripos($_SERVER['HTTP_ACCEPT_LANGUAGE'], 'de-de') !== false ||
 			stripos($_SERVER['HTTP_ACCEPT_LANGUAGE'], 'de') !== false ||
 			stripos($_SERVER['HTTP_ACCEPT_LANGUAGE'], 'en-gb') !== false ||
@@ -38,6 +35,10 @@ class IndexController extends Zend_Controller_Action {
 			}
 			elseif (stripos($_SERVER['HTTP_ACCEPT_LANGUAGE'], 'zh-cn') !== false) {
 				$this->view->detected_region = $armory::REGION_CN;
+			}
+			elseif (stripos($_SERVER['HTTP_ACCEPT_LANGUAGE'], 'en-us') !== false) {
+				// leave this to the end - highly likely a foreign machine has en_US
+				$this->view->detected_region = $armory::REGION_US;
 			}
 
 
