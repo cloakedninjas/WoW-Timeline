@@ -16,27 +16,21 @@ var Timeline = {
 	},
 	time_indexes: {
 		prev_mon: null,
-		prev_year: null,
-		prev_px: 0
+		prev_year: null
 	},
 
 	plot: function() {
 		for (var day_idx = this.load_count; day_idx < this.data.length; day_idx++) {
-			
-			var h = ((this.left_height < this.right_height) ? this.left_height : this.right_height) + 5;
-			
-			if (h - this.time_indexes.prev_px <= 10) {
-				console.log(12333);
-				
-			}
-			
-			this.time_indexes.prev_px = h;
-			
+
+			var h = this.max_height;
+
 			// time indexes
 			if (this.time_indexes.prev_year != this.data[day_idx].y) {
+				this.nudgeDown(40);
 				$("#time_index").append("<p style=\"top: " + h + "px;\">" + this.data[day_idx].y + "</p>");
 			}
 			else if (this.time_indexes.prev_mon != this.data[day_idx].mm) {
+				this.nudgeDown(40);
 				$("#time_index").append("<p style=\"top: " + h + "px;\">" + this.data[day_idx].m + "</p>");
 			}
 
@@ -91,6 +85,12 @@ var Timeline = {
 			}
 		}
 		this.load_count = this.data.length;
+	},
+
+	nudgeDown: function(px) {
+		this.max_height += px;
+		this.left_height = this.max_height;
+		this.right_height = this.max_height;
 	},
 
 	plotNotable: function(day_idx, ach_idx) {
