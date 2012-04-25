@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50519
 File Encoding         : 65001
 
-Date: 2012-04-05 15:37:08
+Date: 2012-04-25 13:42:59
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -1933,13 +1933,17 @@ CREATE TABLE `characters` (
   `cacheCount` int(10) unsigned NOT NULL,
   `viewCount` bigint(20) unsigned NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of characters
 -- ----------------------------
-INSERT INTO `characters` VALUES ('1', 'Halbu', '2', '404', '1324993901000', '6', '4', '0', '85', '%s the Undying', '11165', 'lightbringer/190/34244286-avatar.jpg', 'Royal Legion', '2012-04-05 10:46:02', '2012-04-05 10:46:02', '1', '0');
-INSERT INTO `characters` VALUES ('2', 'Meshif', '2', '404', '1321136745000', '11', '4', '0', '85', '%s, Champion of the Frozen Wastes', '3010', 'lightbringer/110/24191342-avatar.jpg', 'Royal Legion', '2012-04-05 14:05:09', '2012-04-05 14:05:09', '1', '0');
+INSERT INTO `characters` VALUES ('1', 'Halbu', '2', '404', '1335101448000', '6', '4', '0', '85', '%s the Undying', '11165', 'lightbringer/190/34244286-avatar.jpg', 'Royal Legion', '2012-04-05 10:46:02', '2012-04-24 14:32:44', '2', '0');
+INSERT INTO `characters` VALUES ('2', 'Meshif', '2', '404', '1335098119000', '11', '4', '0', '85', '%s, Champion of the Frozen Wastes', '3010', 'lightbringer/110/24191342-avatar.jpg', 'Royal Legion', '2012-04-05 14:05:09', '2012-04-24 12:53:08', '2', '0');
+INSERT INTO `characters` VALUES ('3', 'Greiz', '2', '404', '1321137149000', '3', '6', '0', '80', '', '1375', 'lightbringer/79/43320911-avatar.jpg', '', '2012-04-11 14:44:20', '2012-04-11 14:44:20', '1', '0');
+INSERT INTO `characters` VALUES ('4', 'Kinkeh', '2', '404', '1334011268000', '5', '4', '1', '85', '%s, Destroyer\'s End', '11305', 'lightbringer/33/56686113-avatar.jpg', 'Royal Legion', '2012-04-11 14:45:30', '2012-04-11 14:45:30', '1', '0');
+INSERT INTO `characters` VALUES ('5', 'Zemfira', '2', '404', '1335090468000', '4', '10', '1', '17', '', '60', 'lightbringer/226/75993314-avatar.jpg', '', '2012-04-24 13:12:23', '2012-04-24 13:12:23', '1', '0');
+INSERT INTO `characters` VALUES ('6', 'Moosalot', '2', '404', '1335101149000', '2', '6', '0', '17', '', '100', 'lightbringer/41/75993385-avatar.jpg', '', '2012-04-24 13:41:50', '2012-04-24 13:41:50', '1', '0');
 
 -- ----------------------------
 -- Table structure for `realms`
