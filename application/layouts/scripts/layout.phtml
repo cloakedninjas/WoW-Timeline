@@ -7,17 +7,25 @@
 		<script type="text/javascript" src="/js/app.js"></script>
 		<link href="/favicon.ico" rel="shortcut icon" type="image/x-icon" />
 
-		<link href='http://fonts.googleapis.com/css?family=Gudea:400,700&subset=latin,latin-ext' rel='stylesheet' type='text/css'>
+		<link href='http://fonts.googleapis.com/css?family=Gudea:400,700&subset=latin,latin-ext' rel='stylesheet' type='text/css' />
 		<link type="text/css" rel="stylesheet" href="/css/screen.css" />
+		<link rel="shortcut icon" href="/favicon.ico" />
 
 		<?php echo $this->headTitle(); ?>
+		<meta name="keywords" content="wow, world of warcraft, timeline, character, char, achievements" />
+		<meta name="description" content="Look back at your World of Warcraft character's achievements" />
 	</head>
 
 	<body>
 		<div id="logo_bar"></div>
 		<div id="frame">
 			<div id="header">
-				<a id="logo" href="/"></a>
+				<a id="logo" href="/" title="WoW Timeline"></a>
+				<a id="beta" title="If you spot any bugs, please let me know :-)">BETA</a>
+				<ul id="mainmenu">
+					<li><a href="/">Home</a></li>
+					<li><a href="/feedback">Feedback</a></li>
+				</ul>
 			</div>
 			<?php echo $this->layout()->content; ?>
 		</div>

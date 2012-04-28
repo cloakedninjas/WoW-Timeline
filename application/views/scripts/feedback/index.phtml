@@ -1,0 +1,38 @@
+<?php 
+if ($this->sent) {
+?>
+<div class="panel">
+	<h1>Thanks!</h1>
+	<p>Your feedback has been sent</p>
+</div>
+<?php
+}
+else {
+?>
+<form id="feedback" class="panel" action="/feedback" method="post">
+	<h1>Found a bug? Have a suggestion?</h1>
+	
+	<p>
+		<label>Your name <span class="desc">(Hey, don&apos;t be a stranger)</span></label>
+		<input type="text" name="name" />
+	</p>
+	
+	<p>		
+		<label>Email <span class="desc">(if you&apos;d like a response)</span></label>
+		<input type="text" name="email" />
+	</p>
+	
+	<p>
+		<label>Issue</label>
+		<textarea name="issue"></textarea>
+	</p>
+	
+	<p>
+		<input type="submit" value="Send" />
+	</p>
+	
+	<?php echo $this->csrf; ?>
+</form>
+<?php 
+}
+?>

@@ -215,7 +215,6 @@ var Funcs = {
 	},
 
 	setCache: function(name, data, method) {
-		console.log("setting cache: " + name + " to " + data);
 		if (typeof method == 'undefined') {
 			method = this.cache.method;
 		}
@@ -225,7 +224,6 @@ var Funcs = {
 				localStorage.setItem(name, data);
 			}
 			catch (e) {
-				console.log(e);
 			}
 		}
 		else {

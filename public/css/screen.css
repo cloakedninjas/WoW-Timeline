@@ -18,7 +18,7 @@ a {
 	top: 50px;
 	width: 100%;
 	height: 50px;
-	background: #0c1c24 -moz-linear-gradient(top, #102833 0%, #060f13 100%);
+	background: url(/images/logo_bar_bg.png) top left repeat-x;
 }
 
 #frame {
@@ -39,6 +39,46 @@ a {
 	background: url(/images/logo.png) left top no-repeat;
 }
 
+#beta {
+	position: absolute;
+	top: 81px;
+	left: 475px;
+	color: #db1414;
+	font-size: 16px;
+	font-weight: bold;
+}
+
+#mainmenu {
+	position: absolute;
+	top: 66px;
+	right: 20px;
+	margin: 0;
+	padding: 0;
+	list-style-type: none;
+}
+
+#mainmenu li {
+	float: left;
+	margin: 0 10px 0 0;
+	padding: 0 10px 0 0;
+	border-right: 1px #fff solid;
+	font-size: 12px;
+}
+
+#mainmenu li:last-child {
+	border: 0;
+}
+
+#mainmenu li a {
+	color: #fff;
+	font-weight: bold;
+	text-decoration: none;
+}
+
+#mainmenu li a:hover {
+	text-shadow: #fff 0 0 2px;
+}
+
 .panel {
 	padding: 10px;
 	border: 1px #102731 solid;
@@ -46,11 +86,19 @@ a {
 	background: #fff;
 }
 
+.panel h1 {
+	margin: 0 0 20px;
+}
+
 .dark_panel {
 	padding: 10px;
 	border: 1px #102731 solid;
 	border-radius: 8px;
+	background-color: #0D212A;
 	background-image: -moz-linear-gradient(top, #102833 0%, #060f13 100%);
+	background-image: -webkit-linear-gradient(top, #102833 0%, #060f13 100%);
+	background-image: -o-linear-gradient(top, #102833 0%, #060f13 100%);
+	background-image: -ms-linear-gradient(top, #102833 0%, #060f13 100%);
 	box-shadow: 0 5px 4px rgba(200, 200, 200, 0.3) inset;
 	color: #fff;
 }
@@ -64,7 +112,8 @@ a {
 }
 
 #char_lookup h1 {
-	margin: 0 0 20px;
+	float: left;
+	margin: 0 20px 0 0;
 }
 
 #char_lookup div {
@@ -332,7 +381,7 @@ a {
 	width: 60px;
 	text-align: center;
 	font-weight: bold;
-	text-shadow: #ccc 0 0 2px;
+	font-size: 12px;
 }
 
 #entry_template, #notable_template {
@@ -440,6 +489,59 @@ a {
 	width: 16px;
 	height: 16px;
 	background: url(/images/ajax_load.gif) top left no-repeat;
+}
+
+#feedback p {
+	margin: 0 0 20px;
+}
+
+#feedback p:last-child {
+	margin: 0;
+}
+
+#feedback label {
+	display: block;
+	margin: 0 0 5px;
+	font-weight: bold;
+}
+
+#feedback input[type=text] {
+	width: 300px;
+	padding: 2px 5px;
+	border: 1px #333 solid;
+	border-radius: 4px;
+	font: 12px verdana;
+}
+
+#feedback textarea {
+	width: 600px;
+	height: 200px;
+	padding: 2px 5px;
+	border: 1px #333 solid;
+	border-radius: 4px;
+	font: 12px verdana;
+}
+
+#feedback input[type=submit] {
+	padding: 2px 5px;
+	border: 1px #333 solid;
+	border-radius: 4px;
+	font: bold 12px verdana;
+}
+
+#feedback input[type=submit]:hover {
+	color: #fff;
+	background: #09181E;
+	cursor: pointer;
+}
+
+#feedback .desc {
+	padding: 0 0 0 20px;
+	font-weight: normal;
+}
+
+#feedback #csrf-label {
+	display: none;
 }
 
 #footer {
