@@ -62,6 +62,7 @@ class App_Model_Achievement extends App_Model_Base {
 		$this->name = $object->title;
 		$this->points = $object->points;
 		$this->description = $object->description;
+		$this->icon = $object->icon;
 		$this->category_id = $parent_category;
 		$this->save(true);
 	}
@@ -77,6 +78,11 @@ class App_Model_Achievement extends App_Model_Base {
 		if ($this->description != $achv->description) {
 			$update = true;
 			$this->description = $achv->description;
+		}
+
+		if ($this->icon != $achv->icon) {
+			$update = true;
+			$this->icon = $achv->icon;
 		}
 
 		if ($this->points != $achv->points) {
