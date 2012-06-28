@@ -11,6 +11,7 @@ else {
 ?>
 
 <script type="text/javascript">
+Timeline.icon_path = "<?php echo $this->icon_path; ?>";
 Timeline.char_id = <?php echo $this->char->id; ?>;
 Timeline.data = <?php echo $this->json_data; ?>;
 Timeline.total_achvs = <?php echo count($this->char->achievements); ?>;

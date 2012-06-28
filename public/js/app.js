@@ -64,8 +64,11 @@ var Timeline = {
 					continue;
 				}
 				else {
-					entry += "<p title=\"" + this.data[day_idx].a[ach_idx].d + "\"";
-					entry += ">" + this.data[day_idx].a[ach_idx].n + "</p>";
+					//entry += "<p title=\"" + this.data[day_idx].a[ach_idx].d + "\"";
+					//entry += ">" + this.data[day_idx].a[ach_idx].n + "</p>";
+
+					entry += "<p><span class=\"i\"><img title=\"" + this.data[day_idx].a[ach_idx].d + "\" src=\"" + this.icon_path + this.data[day_idx].a[ach_idx].i + ".jpg\" /></span>";
+					entry += "<span class=\"n\">" + this.data[day_idx].a[ach_idx].n + "</span></p>";
 				}
 			}
 
@@ -96,8 +99,11 @@ var Timeline = {
 	plotNotable: function(day_idx, ach_idx) {
 		var html = $("#notable_template").clone();
 		html.removeAttr("id");
-		html.append("<h4>" + this.data[day_idx].a[ach_idx].n + "<span class=\"date\">" + this.data[day_idx].da + " " + this.data[day_idx].m + "</span></h4><p>" + this.data[day_idx].a[ach_idx].d + "</p>");
 
+		var inp = "<h4>" + this.data[day_idx].a[ach_idx].n + "<span class=\"date\">" + this.data[day_idx].da + " " + this.data[day_idx].m + "</span></h4>";
+		inp += "<p><span class=\"i\"><img src=\"" + this.icon_path + this.data[day_idx].a[ach_idx].i + ".jpg\" /></span><span class=\"n\">" + this.data[day_idx].a[ach_idx].d + "</span></p>";
+
+		html.append(inp);
 		this.addToTimeline(html);
 	},
 

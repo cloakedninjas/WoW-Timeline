@@ -221,6 +221,7 @@ class App_Model_Character extends App_Model_Base {
 				$obj2 = new stdClass();
 				$obj2->n = $achievements->cross_ref[$a]->name;
 				$obj2->d = $achievements->cross_ref[$a]->description;
+				$obj2->i = $achievements->cross_ref[$a]->icon;
 
 				if ($achievements->cross_ref[$a]->noteable) {
 					$obj2->no = true;

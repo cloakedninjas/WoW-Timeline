@@ -392,7 +392,7 @@ a {
 	position: absolute;
 	width: 400px;
 	margin: 0 0 20px;
-	padding: 5px;
+	padding: 5px 5px 0;
 	border: 1px #000 solid;
 	border-radius: 5px;
 	background: #333;
@@ -415,6 +415,39 @@ a {
 	display: block;
 	margin: 0 0 5px;
 	color: grey;
+}
+
+#timeline .entry p {
+	position: relative;
+	float: left;
+	width: 48%;
+	height: 48px;
+}
+
+#timeline .entry p .i {
+	position: absolute;
+	width: 36px;
+	height: 36px;
+	padding: 1px;
+	border: 1px solid #000;
+	border-top-color: #B1B2B4;
+	border-bottom-color: #2F3032;
+	border-left-color: #434445;
+	border-right-color: #434445;
+	
+	border-radius: 3px;
+	box-shadow: 0 0 10px #000000;
+	background: #000;
+}
+
+#timeline .entry p .i img {
+	display: block;
+}
+
+#timeline .entry p .n {
+	position: absolute;
+	left: 46px;
+	top: 12px;
 }
 
 #timeline .entry.left .date {
@@ -468,6 +501,19 @@ a {
 #timeline .notable h4 {
 	margin: 0 0 5px;
 	color: gold;
+}
+
+#timeline .notable p {
+	float: none;
+	width: auto;
+}
+
+#timeline .notable p .i { 
+	left: 0;
+}
+
+#timeline .notable p .n {
+
 }
 
 #timeline .loading {

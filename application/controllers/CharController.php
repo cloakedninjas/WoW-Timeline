@@ -29,6 +29,11 @@ class CharController extends Zend_Controller_Action {
 	    	}
 
     		$this->view->char = $char;
+
+    		$config = Zend_Registry::get('config');
+			$entry = $armory->region_list[$char->region];
+
+			$this->view->icon_path = $config->wow->iconpath->$entry;
     		$this->view->headTitle()->append($char->name);
     	}
     	else {
