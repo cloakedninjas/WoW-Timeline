@@ -149,6 +149,7 @@ class App_Model_Armory {
 
 		$query = '
 		SELECT name FROM realms WHERE region = ' . $region . ' AND name LIKE ' . $db->quote($prefix) . '
+		AND status = 1
 		ORDER BY name
 		LIMIT ' . intval($limit);
 

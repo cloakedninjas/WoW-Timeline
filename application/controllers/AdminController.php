@@ -20,60 +20,69 @@ class AdminController extends Zend_Controller_Action {
     	set_time_limit(0);
 
     	$armory = new App_Model_Armory();
-    	$realms = $armory->getRealmList();
-
+    	$blizz_realms = $armory->getRealmList();
+		
     	$db = Zend_Registry::get('db');
-    	$existing_realms = $db->fetchAll('SELECT * FROM realms ORDER by region, name');
+    	$existing_realms = $db->fetchAll('SELECT * FROM realms WHERE status = 1 ORDER by region, name');
 
     	$results = array('delete'=>array(), 'add'=>array(), 'found'=>0);
+		
+		// first check current realms still exist
 
     	foreach ($existing_realms as $existing) {
     		$exists = false;
 
     		$region_code = $armory->region_list[$existing->region];
-
-    		foreach ($realms[$region_code]->realms as $realm) {
-				if ($realm->name == $existing->name) {
-					$exists = true;
-					break;
+			
+			if (is_object($blizz_realms[$region_code])) {
+				foreach ($blizz_realms[$region_code]->realms as $realm) {
+					if ($realm->name == $existing->name) {
+						$exists = true;
+						break;
+					}
 				}
-    		}
 
-    		if (!$exists) {
-    			$results['delete'][] = $existing->name;
+				if (!$exists) {
+					$results['delete'][] = $region_code . '-' . $existing->name;
 
-    			// TODO: add delete / flag for deletion
-    		}
+					$db->query('UPDATE realms SET status = 0 WHERE id = ' . $existing->id);
+				}
+			}
     	}
-
-    	foreach ($realms as $region=>$realms_object) {
-    		foreach ($realms_object->realms as $realm) {
+		
+		// now check for new realms
+    	foreach ($blizz_realms as $region=>$blizz_realms_object) {
+			if ($blizz_realms_object === false) {
+				continue;
+			}
+			
+    		foreach ($blizz_realms_object->realms as $realm) {
     			$results['found']++;
 
 	    		$exists = false;
 
 	    		foreach ($existing_realms as $existing) {
-	    			if ($realm->name == $existing->name) {
+					$region_id = array_search($region, $armory->region_list);
+					
+	    			if ($existing->region = $region_id && $realm->name == $existing->name) {
 						$exists = true;
 						break;
 					}
 	    		}
 
 	    		if (!$exists) {
-	    			$results['add'][] = $realm->name;
+	    			$results['add'][] = $region . '-' . $realm->name;
 
 	    			$r = new App_Model_Realm();
 	    			$r->name = $realm->name;
 	    			$r->slug = $realm->slug;
 	    			$r->region = array_search($region, $armory->region_list);
 	    			$r->save();
-
 	    		}
     		}
     	}
 
     	$this->view->results = $results;
-
 
     }
 
