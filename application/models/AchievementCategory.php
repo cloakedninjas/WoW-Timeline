@@ -3,10 +3,11 @@ class App_Model_AchievementCategory extends App_Model_Base {
 	protected $_dbTableName = 'achievement_categories';
 
 	public function insert($object, $parent_category=0) {
-		$ac->id = $object->id;
-    	$ac->name = $object->name;
-    	$ac->parent_id = $parent_category;
-    	$this->save(true);
+		$this->id = $object->id;
+		$this->name = $object->name;
+		$this->parent_id = $parent_category;
+
+		$this->save(true);
 	}
 
 	public function checkMatchesArmory($cat, $parent_id) {
