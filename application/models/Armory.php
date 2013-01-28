@@ -51,7 +51,7 @@ class App_Model_Armory {
 		self::RACE_GNOME => 'Gnome',
 		self::RACE_TROLL => 'Troll',
 		self::RACE_GOBLIN => 'Goblin',
-		self::RACE_BLOOD_ELF => 'Blood Eld',
+		self::RACE_BLOOD_ELF => 'Blood Elf',
 		self::RACE_DRAENEI => 'Draenei',
 		self::RACE_WORGEN => 'Worgen',
 		self::RACE_PANDAREN => 'Pandaren'
