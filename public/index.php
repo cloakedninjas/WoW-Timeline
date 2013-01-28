@@ -9,7 +9,7 @@ defined('APPLICATION_ENV')
 
 // Ensure library/ is on include_path
 set_include_path(implode(PATH_SEPARATOR, array(
-    realpath(APPLICATION_PATH . '/../../_libs/zf'),
+    realpath(APPLICATION_PATH . '/../../_lib/zf'),
     get_include_path(),
 )));
 

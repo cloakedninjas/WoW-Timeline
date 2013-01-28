@@ -41,5 +41,13 @@ class IndexController extends Zend_Controller_Action {
 				$this->view->detected_region = $armory::REGION_US;
 			}
 		}
+
+        // get last 5 queries
+
+        $char = new App_Model_Character();
+        $rows = $char->getLastLookups();
+
+        $this->view->recent = $char->getLastLookups();
+        $this->view->armory = $armory;
 	}
 }
