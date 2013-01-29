@@ -181,6 +181,48 @@ a {
 	outline: none;
 }
 
+#recent {
+    margin: 30px 0 0;
+}
+
+#recent ul {
+    height: 126px;
+    margin: 20px 0 15px 20px;
+    list-style-type: none;
+}
+
+#recent ul li {
+    float: left;
+    width: 300px;
+    margin: 0 16px 0 0;
+}
+
+#recent ul li a {
+    display: block;
+    height: 15px;
+    margin: 0 0 5px;
+    padding: 3px 5px;
+    background: #182F39;
+    color: #fff;
+    text-decoration: none;
+}
+
+#recent ul li a:hover {
+    background: #576870;
+}
+
+#recent ul li span {
+    float: left;
+}
+
+#recent ul li .realm {
+    width: 150px;
+}
+
+#recent ul li .points {
+    float: right;
+}
+
 #realm_suggest {
 	list-style-type: none;
 }

@@ -33,7 +33,7 @@
 </div>
 <p id="lookup_error"></p>
 
-<div id="char_lookup" class="dark_panel">
+<div id="recent" class="dark_panel">
     <h1>Recent Profiles Fetched</h1>
 
     <ul>
@@ -41,9 +41,11 @@
         if ($this->recent) {
             foreach ($this->recent as $recent) {
                 $region = $this->armory->region_list[$recent->region];
+
+                $name = '<span class="realm">' . strtoupper($region) . '-' . $recent->realm . '</span><span class="name">' . $recent->name . '</span>';
                 $url = '/char/' . $region . '/' . $recent->slug . '/' . mb_strtolower($recent->name);
 
-                echo '<li><a href="' . $url . '">' . $recent->name . '</a><span>' . $recent->achievementPoints . '</span></li>';
+                echo '<li><a href="' . $url . '">' . $name . '<span class="points">' . $recent->achievementPoints . '</span></a></li>';
             }
         }
         ?>

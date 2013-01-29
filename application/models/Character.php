@@ -264,11 +264,11 @@ class App_Model_Character extends App_Model_Base {
 		return $this->_armory->class_list[$this->class];
 	}
 
-    public function getLastLookups($count = 5) {
+    public function getLastLookups($count = 15) {
         $db = Zend_Registry::get('db');
 
         $rows = $db->fetchAll('
-		SELECT c.name, c.achievementPoints, r.region, r.slug
+		SELECT c.name, c.achievementPoints, r.region, r.name as realm, r.slug
         FROM characters AS c
         INNER JOIN realms AS r ON c.realm = r.id
         ORDER BY c.lastCached DESC
