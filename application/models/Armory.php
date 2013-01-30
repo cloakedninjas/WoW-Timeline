@@ -19,7 +19,9 @@ class App_Model_Armory {
 	const RACE_BLOOD_ELF =	10;
 	const RACE_DRAENEI =	11;
 	const RACE_WORGEN =		22;
-	const RACE_PANDAREN =	24;
+    const RACE_PANDAREN_N =	24;
+	const RACE_PANDAREN_A =	25;
+    const RACE_PANDAREN_H =	26;
 
 	const CLASS_WARRIOR =	1;
 	const CLASS_PALADIN =	2;
@@ -54,7 +56,9 @@ class App_Model_Armory {
 		self::RACE_BLOOD_ELF => 'Blood Elf',
 		self::RACE_DRAENEI => 'Draenei',
 		self::RACE_WORGEN => 'Worgen',
-		self::RACE_PANDAREN => 'Pandaren'
+		self::RACE_PANDAREN_N => 'Pandaren',
+        self::RACE_PANDAREN_A => 'Pandaren',
+        self::RACE_PANDAREN_H => 'Pandaren'
 	);
 
 	public $class_list = array (
