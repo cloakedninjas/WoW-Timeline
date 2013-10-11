@@ -6,6 +6,7 @@
 		<script type="text/javascript" src="/js/funcs.js"></script>
 		<script type="text/javascript" src="/js/app.js"></script>
 		<link href="/favicon.ico" rel="shortcut icon" type="image/x-icon" />
+        <link rel="image_src" href="/images/share_icon.png" />
 
 		<link href='http://fonts.googleapis.com/css?family=Gudea:400,700&subset=latin,latin-ext' rel='stylesheet' type='text/css' />
 		<link type="text/css" rel="stylesheet" href="/css/screen.css?v=2" />
@@ -26,6 +27,7 @@
 					<li><a href="/">Home</a></li>
 					<li><a href="/feedback">Feedback</a></li>
 				</ul>
+                <div class="fb-like" data-href="http://wowtimeline.net/" data-width="The pixel width of the plugin" data-height="The pixel height of the plugin" data-colorscheme="dark" data-layout="standard" data-action="like" data-show-faces="true" data-send="false"></div>
 			</div>
 			<?php echo $this->layout()->content; ?>
 		</div>
@@ -57,5 +59,15 @@
 		}
 		?>
 		</script>
+        <div id="fb-root"></div>
+        <script>
+        (function(d, s, id) {
+        var js, fjs = d.getElementsByTagName(s)[0];
+            if (d.getElementById(id)) return;
+            js = d.createElement(s); js.id = id;
+            js.src = "//connect.facebook.net/en_US/all.js#xfbml=1";
+            fjs.parentNode.insertBefore(js, fjs);
+        }(document, 'script', 'facebook-jssdk'));
+        </script>
 	</body>
 </html>
