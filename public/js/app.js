@@ -19,6 +19,8 @@ var Timeline = {
 		prev_year: null
 	},
 
+  wowhead_url: "http://www.wowhead.com/achievement=#/",
+
 	plot: function() {
 		for (var day_idx = this.load_count; day_idx < this.data.length; day_idx++) {
 
@@ -80,6 +82,11 @@ var Timeline = {
 				html.find(".date").text(this.data[day_idx].da + " " + this.data[day_idx].m);
 				html.attr("data-day", day_idx);
 				html.append(entry);
+
+        var self = this;
+        html.find('span.i').bind('mouseover', function () {
+          self.showExternalLinks($(this), self.data[day_idx].a[ach_idx].id);
+        });
 
 				var side = (this.left_height > this.right_height) ? 'right' : 'left';
 				html.addClass(side);
@@ -200,6 +207,18 @@ var Timeline = {
 			}
 		});
 	},
+
+  showExternalLinks: function ($icon, achv_id) {
+    var wowhead_url = Timeline.wowhead_url.replace("#", achv_id);
+    var html = "<div class=\"external\"><a href=\"" + wowhead_url + "\" target=\"_blank\"></a></div>";
+
+    $icon.append(html);
+
+    $icon.on('mouseout', function () {
+      $(this).remove('.external');
+      $icon.off('mouseout');
+    });
+  },
 
 	init: function() {
 		this.plot();
